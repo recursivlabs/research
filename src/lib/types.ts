@@ -1,0 +1,130 @@
+// Canonical data contract for the leaderboard + experiments.
+// Produced by the experiment harness (scripts/run-experiment.ts), consumed by the site.
+
+export type Metric =
+  // standard / table-stakes
+  | 'quality'
+  | 'costPerToken'
+  | 'speed'
+  // agentic — Recursiv-only
+  | 'costToDone'
+  | 'completionRate'
+  | 'toolAccuracy'
+  | 'selfCorrection';
+
+export interface MetricStat {
+  /** raw value in `unit` (e.g. dollars, tok/s, %) */
+  value: number;
+  unit: string;
+  /** 95% confidence interval on the raw value, if measured */
+  ci95?: [number, number];
+  /** number of runs the stat is computed over */
+  nRuns?: number;
+  /** reliability: fraction of k consecutive successes (pass^k) where relevant */
+  passK?: number;
+}
+
+export interface ModelScore {
+  modelId: string; // e.g. "anthropic/claude-opus-4.6"
+  displayName: string; // "Claude Opus 4.6"
+  vendor: string; // "Anthropic"
+  metrics: Partial<Record<Metric, MetricStat>>;
+  /** 0–100 normalized scores for bar rendering (higher = better, direction-adjusted) */
+  normalized: Partial<Record<Metric, number>>;
+  /** composite, drives default sort */
+  recursivScore: number;
+  /** slugs of experiments that contributed to this row */
+  experiments: string[];
+}
+
+export interface Leaderboard {
+  updatedAt: string; // ISO timestamp
+  /** weights used to compute recursivScore, published on /methodology */
+  weights: Partial<Record<Metric, number>>;
+  models: ModelScore[];
+  /** true while seeded with sample data (shows a "preview" badge) */
+  preview?: boolean;
+}
+
+// ---- metric presentation metadata -------------------------------------------
+
+export type MetricGroup = 'standard' | 'agentic';
+
+export interface MetricMeta {
+  key: Metric;
+  label: string;
+  short: string;
+  group: MetricGroup;
+  /** which direction is "better" — drives ranking + color */
+  better: 'up' | 'down';
+  blurb: string;
+}
+
+export const METRIC_META: MetricMeta[] = [
+  {
+    key: 'costToDone',
+    label: 'Cost-to-Done',
+    short: 'Cost-to-Done',
+    group: 'agentic',
+    better: 'down',
+    blurb:
+      'Real dollars to fully complete a verified task, retries and self-correction included. Not price-per-token.',
+  },
+  {
+    key: 'completionRate',
+    label: 'Task completion',
+    short: 'Completion',
+    group: 'agentic',
+    better: 'up',
+    blurb: 'Share of real multi-step tasks finished end-to-end, reported as pass^k reliability.',
+  },
+  {
+    key: 'toolAccuracy',
+    label: 'Tool-use accuracy',
+    short: 'Tool acc.',
+    group: 'agentic',
+    better: 'up',
+    blurb: 'Correct tool selection with well-formed arguments. The inverse of the malformed-call rate.',
+  },
+  {
+    key: 'selfCorrection',
+    label: 'Self-correction',
+    short: 'Self-corr.',
+    group: 'agentic',
+    better: 'up',
+    blurb: 'Recovery rate: tasks completed after an initial failed attempt. Does it know when it is wrong?',
+  },
+  {
+    key: 'quality',
+    label: 'Quality',
+    short: 'Quality',
+    group: 'standard',
+    better: 'up',
+    blurb: 'Output correctness on completed tasks, graded by an independent judge model.',
+  },
+  {
+    key: 'speed',
+    label: 'Speed',
+    short: 'Speed',
+    group: 'standard',
+    better: 'up',
+    blurb: 'Throughput in tokens/sec during task execution.',
+  },
+  {
+    key: 'costPerToken',
+    label: 'Cost / 1M tok',
+    short: '$/1M tok',
+    group: 'standard',
+    better: 'down',
+    blurb: 'Blended provider price per million tokens. Shown for contrast with Cost-to-Done.',
+  },
+];
+
+export const AGENTIC_METRICS = METRIC_META.filter((m) => m.group === 'agentic');
+export const STANDARD_METRICS = METRIC_META.filter((m) => m.group === 'standard');
+
+export function metaFor(key: Metric): MetricMeta {
+  const m = METRIC_META.find((x) => x.key === key);
+  if (!m) throw new Error(`unknown metric ${key}`);
+  return m;
+}
