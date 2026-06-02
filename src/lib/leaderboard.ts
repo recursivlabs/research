@@ -7,13 +7,9 @@ import snapshot from '../../data/leaderboard.json';
  * (Used only when the dataset does not carry its own weights.)
  */
 export const DEFAULT_WEIGHTS: Partial<Record<Metric, number>> = {
-  costToDone: 0.3,
-  completionRate: 0.25,
-  toolAccuracy: 0.15,
-  selfCorrection: 0.1,
-  quality: 0.12,
-  speed: 0.05,
-  costPerToken: 0.03,
+  completionRate: 0.4,
+  costToDone: 0.35,
+  quality: 0.25,
 };
 
 /** min–max normalize a metric across the set, direction-adjusted so 100 = best. */

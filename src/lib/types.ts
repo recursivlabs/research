@@ -58,6 +58,10 @@ export interface MetricMeta {
   /** which direction is "better" — drives ranking + color */
   better: 'up' | 'down';
   blurb: string;
+  /** part of the simplified main leaderboard */
+  core?: boolean;
+  /** one plain-language line for the table legend */
+  plain?: string;
 }
 
 export const METRIC_META: MetricMeta[] = [
@@ -67,6 +71,8 @@ export const METRIC_META: MetricMeta[] = [
     short: 'Cost-to-Done',
     group: 'agentic',
     better: 'down',
+    core: true,
+    plain: 'real dollars to finish, retries included',
     blurb:
       'Real dollars to fully complete a verified task, retries and self-correction included. Not price-per-token.',
   },
@@ -76,6 +82,8 @@ export const METRIC_META: MetricMeta[] = [
     short: 'Completion',
     group: 'agentic',
     better: 'up',
+    core: true,
+    plain: 'how reliably it finishes real tasks',
     blurb: 'Share of real multi-step tasks finished end-to-end, reported as pass^k reliability.',
   },
   {
@@ -100,6 +108,8 @@ export const METRIC_META: MetricMeta[] = [
     short: 'Quality',
     group: 'standard',
     better: 'up',
+    core: true,
+    plain: 'how good the finished result is',
     blurb: 'Output correctness on completed tasks, graded by an independent judge model.',
   },
   {
@@ -122,6 +132,10 @@ export const METRIC_META: MetricMeta[] = [
 
 export const AGENTIC_METRICS = METRIC_META.filter((m) => m.group === 'agentic');
 export const STANDARD_METRICS = METRIC_META.filter((m) => m.group === 'standard');
+
+/** The simplified main leaderboard: the few numbers that actually matter, in display order. */
+const CORE_ORDER: Metric[] = ['completionRate', 'quality', 'costToDone'];
+export const CORE_METRICS: MetricMeta[] = CORE_ORDER.map((k) => METRIC_META.find((m) => m.key === k)!);
 
 export function metaFor(key: Metric): MetricMeta {
   const m = METRIC_META.find((x) => x.key === key);

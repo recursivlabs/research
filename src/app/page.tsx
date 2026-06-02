@@ -17,40 +17,36 @@ export default async function Home() {
       <section className="relative border-b border-line">
         <div className="bg-grid-faint absolute inset-0 h-40" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-12">
-          <div className="mb-5 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
-                <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-                Agentic model leaderboard
-              </div>
-              <h1 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-                Ranked by <span className="text-accent">Cost-to-Done</span>: the real dollars to finish the job.
-              </h1>
+          <div className="mb-6 max-w-3xl">
+            <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+              The Recursiv model leaderboard
             </div>
-            <div className="flex items-center gap-3 pb-1 font-mono text-[11px] text-faint">
-              {board.preview && (
-                <span className="rounded border border-warn/40 bg-warn/10 px-2 py-1 uppercase tracking-wider text-warn">
-                  preview data
-                </span>
-              )}
-              <span>updated {timeAgo(board.updatedAt)}</span>
-            </div>
+            <h1 className="mt-4 text-balance text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+              How AI models actually perform at <span className="text-accent">real work</span>.
+            </h1>
+            <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
+              Every score below comes from live agentic experiments run on the Recursiv platform. Real
+              multi-step tasks, real tools, real cost. Not quiz-style benchmarks.
+            </p>
+          </div>
+
+          <div className="mb-3 flex items-center justify-end gap-3 font-mono text-[11px] text-faint">
+            {board.preview && (
+              <span className="rounded border border-warn/40 bg-warn/10 px-2 py-1 uppercase tracking-wider text-warn">
+                preview data
+              </span>
+            )}
+            <span>updated {timeAgo(board.updatedAt)}</span>
           </div>
 
           <Leaderboard models={board.models} />
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
-            <p className="max-w-2xl text-sm text-muted">
-              Benchmarks test models in a vacuum. We run them on real, multi-step work and rank by what it
-              actually costs to finish. The <span className="text-agentic">Recursiv-only</span> columns are
-              ones no single-model benchmark can produce.
-            </p>
-            <div className="flex items-center gap-3">
-              <a href="/methodology" className="font-mono text-xs text-faint transition-colors hover:text-accent">
-                how we measure →
-              </a>
-              <DemoButton variant="ghost">Book a demo</DemoButton>
-            </div>
+          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+            <a href="/methodology" className="font-mono text-xs text-faint transition-colors hover:text-accent">
+              how we measure →
+            </a>
+            <DemoButton variant="ghost">Book a demo</DemoButton>
           </div>
         </div>
       </section>

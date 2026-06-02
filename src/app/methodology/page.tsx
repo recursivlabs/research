@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { METRIC_META, metaFor, Metric } from '@/lib/types';
+import { CORE_METRICS, metaFor, Metric } from '@/lib/types';
 import { DEFAULT_WEIGHTS } from '@/lib/leaderboard';
 import { CTASection } from '@/components/CTA';
 
@@ -42,24 +42,23 @@ export default function MethodologyPage() {
         </div>
 
         {/* metrics */}
-        <h2 className="mt-14 text-2xl font-semibold tracking-tight text-ink">The metrics</h2>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          {METRIC_META.map((m) => (
+        <h2 className="mt-14 text-2xl font-semibold tracking-tight text-ink">What we measure</h2>
+        <p className="mt-2 max-w-2xl text-muted">
+          Three numbers answer the only question that matters for shipping agents: does it work, is it good,
+          what does it cost?
+        </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-3">
+          {CORE_METRICS.map((m) => (
             <div key={m.key} className="rounded-lg border border-line bg-panel p-4">
-              <div className="flex items-center justify-between gap-3">
-                <span className="font-medium text-ink">{m.label}</span>
-                <span
-                  className={`rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider ${
-                    m.group === 'agentic' ? 'bg-agentic/15 text-agentic' : 'bg-line text-faint'
-                  }`}
-                >
-                  {m.group === 'agentic' ? 'Recursiv-only' : 'standard'}
-                </span>
-              </div>
+              <span className="font-medium text-ink">{m.label}</span>
               <p className="mt-1.5 text-sm text-muted">{m.blurb}</p>
             </div>
           ))}
         </div>
+        <p className="mt-4 text-sm text-faint">
+          Further agentic metrics (tool-use accuracy, self-correction, multi-agent coordination) are part of
+          the broader program and roll out as experiments land.
+        </p>
 
         {/* composite weights */}
         <h2 className="mt-14 text-2xl font-semibold tracking-tight text-ink">The Recursiv Score</h2>
