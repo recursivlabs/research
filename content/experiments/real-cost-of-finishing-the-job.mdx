@@ -1,6 +1,6 @@
 ---
 title: "The real cost of finishing the job"
-summary: "Price-per-token is a lie for agents. We ran ten frontier models on the same real, multi-step tasks and measured the dollars it actually took to finish. The cheapest models were often the most expensive."
+summary: "Price-per-token is a lie for agents. We ran ten frontier models on the same real tasks and measured the dollars it actually took to finish. The cheapest models were often the most expensive."
 date: "2026-06-02"
 winner: "Claude Sonnet 4.6"
 heroStatLabel: "cheapest model, real cost-to-done"
@@ -9,57 +9,23 @@ status: "live"
 tags: ["cost", "agentic", "coding"]
 ---
 
-Every leaderboard ranks models by price per million tokens. For a chatbot, that is
-fine. For an **agent** doing real work, it is misleading: a cheap model that fails,
-loops, and retries burns more total dollars than an expensive model that gets it
-right the first time.
-
-So we measured the only number that matters when you ship agents: **Cost-to-Done.**
-
-<StatRow>
-  <Stat value="$0.21" label="cheapest cost-to-done (Sonnet 4.6)" />
-  <Stat value="2.7x" label="how much more a 'cheap' model cost" />
-  <Stat value="30" label="runs per model" />
-</StatRow>
-
-## What we measured
-
-Each of the ten allowlisted models ran the **same suite of real, multi-step software
-tasks** on Recursiv: read a repo, make a change, run the tests, and fix its own
-failures until the suite passed or it gave up. We recorded, for every run:
-
-- whether it actually finished (graded by the test suite, not vibes),
-- the **real provider dollars** spent end-to-end, including every retry,
-- the tool calls it made and which ones were malformed,
-- whether it recovered after an initial failure.
-
-The evaluator runs **outside** the agent's sandbox and the tasks are held out, so a
-model cannot pass by reading the answer. (Eight popular agent benchmarks have been
-shown to be gameable to ~100% without solving anything — we designed against that.)
-
-## The cheap-model trap
-
-The models with the lowest sticker price were not the cheapest to finish the job.
-The smallest model looked 30x cheaper per token, yet its **Cost-to-Done was the
-highest in the field** — it failed, retried, and looped its way past every frontier
-model on total spend.
-
 <VerdictBox>
-The best value model was not the cheapest per token and not the most capable overall.
-It was the one that finished reliably without burning retries. Rank your models by
-Cost-to-Done, not by sticker price, or you will ship the most expensive option by
-accident.
+The best-value model was not the cheapest per token. It was the one that finished
+reliably without burning retries. Rank by Cost-to-Done, not sticker price, or you
+ship the most expensive option by accident.
 </VerdictBox>
 
-## Why only Recursiv can publish this
+Each model ran the same real, multi-step software tasks on Recursiv: read a repo,
+make a change, run the tests, fix its own failures until the suite passed. We
+recorded whether it finished, the **real dollars** spent including every retry, and
+the full transcript.
 
-Cost-to-Done is invisible to every public leaderboard because it requires running
-models as **agents against real tools and metering the real spend over a whole task,
-retries included.** Recursiv records the exact dollar cost of every model call, logs
-every tool invocation, and keeps the full run transcript — so the number below is not
-an estimate. It is the receipt.
+The models with the lowest sticker price were not the cheapest to finish. The
+smallest model looked 30x cheaper per token, yet its Cost-to-Done was the **highest
+in the field** — it failed, retried, and looped past every frontier model on total
+spend.
 
 <Callout label="Reproduce it">
-This experiment runs on Recursiv. Book a demo and we will run it live against your own
-tasks and your own definition of "done."
+This experiment runs on Recursiv. Book a demo and we will run it against your own
+tasks and your own definition of done.
 </Callout>

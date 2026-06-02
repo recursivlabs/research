@@ -1,30 +1,28 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { ModelScore, Metric, STANDARD_METRICS, AGENTIC_METRICS, metaFor } from '@/lib/types';
 import { formatMetric, formatCI } from '@/lib/format';
-import { ScoreBar } from './ScoreBar';
 
 type SortKey = 'recursivScore' | Metric;
+
+const RANK_COLORS = ['text-accent', 'text-ink', 'text-muted'];
 
 export function Leaderboard({ models }: { models: ModelScore[] }) {
   const [sort, setSort] = useState<SortKey>('recursivScore');
 
   const sorted = [...models].sort((a, b) => {
     if (sort === 'recursivScore') return b.recursivScore - a.recursivScore;
-    const na = a.normalized[sort] ?? -1;
-    const nb = b.normalized[sort] ?? -1;
-    return nb - na; // normalized is direction-adjusted, higher = better
+    return (b.normalized[sort] ?? -1) - (a.normalized[sort] ?? -1);
   });
 
-  const HeaderCell = ({ k, label, tone }: { k: SortKey; label: string; tone?: 'agentic' }) => (
+  const Th = ({ k, label, tone, lead }: { k: SortKey; label: string; tone?: 'agentic'; lead?: boolean }) => (
     <th
       onClick={() => setSort(k)}
-      className={`cursor-pointer whitespace-nowrap px-3 py-2 text-right font-mono text-[11px] font-medium uppercase tracking-wider transition-colors ${
-        sort === k ? (tone === 'agentic' ? 'text-agentic' : 'text-accent') : 'text-faint hover:text-muted'
-      }`}
-      title={metaForLabel(k)}
+      title={k === 'recursivScore' ? 'Composite score (weighted). Click to sort.' : metaFor(k).blurb + ' Click to sort.'}
+      className={`cursor-pointer whitespace-nowrap px-3 py-2.5 text-right font-mono text-[11px] font-medium uppercase tracking-wider transition-colors ${
+        lead ? 'border-l border-line-bright' : ''
+      } ${sort === k ? (tone === 'agentic' ? 'text-agentic' : 'text-accent') : 'text-faint hover:text-muted'}`}
     >
       {label}
       {sort === k ? ' ▾' : ''}
@@ -32,92 +30,75 @@ export function Leaderboard({ models }: { models: ModelScore[] }) {
   );
 
   return (
-    <div className="overflow-x-auto scrollbar-thin">
-      <table className="w-full min-w-[860px] border-separate border-spacing-0">
+    <div className="overflow-x-auto scrollbar-thin rounded-xl border border-line bg-panel/40">
+      <table className="w-full min-w-[920px] border-separate border-spacing-0">
         <thead>
-          {/* group band */}
           <tr>
-            <th className="sticky left-0 z-10 bg-bg" colSpan={2} />
-            <th />
-            <th
-              colSpan={STANDARD_METRICS.length}
-              className="px-3 pb-1 text-right font-mono text-[10px] uppercase tracking-[0.2em] text-faint"
-            >
+            <th className="sticky left-0 z-10 bg-panel/40" colSpan={3} />
+            <th colSpan={STANDARD_METRICS.length} className="border-l border-line-bright px-3 pb-1 pt-3 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-faint">
               Standard
             </th>
-            <th
-              colSpan={AGENTIC_METRICS.length}
-              className="rounded-t-md border-x border-t border-agentic/30 bg-agentic/5 px-3 pb-1 pt-1 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-agentic"
-            >
+            <th colSpan={AGENTIC_METRICS.length} className="border-l border-agentic/40 bg-agentic/[0.06] px-3 pb-1 pt-3 text-center font-mono text-[10px] uppercase tracking-[0.2em] text-agentic">
               Recursiv-only · agentic
             </th>
           </tr>
           <tr className="border-b border-line">
-            <th className="sticky left-0 z-10 bg-bg px-3 py-2 text-left font-mono text-[11px] uppercase tracking-wider text-faint">
-              #
-            </th>
-            <th className="sticky left-8 z-10 bg-bg px-3 py-2 text-left font-mono text-[11px] uppercase tracking-wider text-faint">
-              Model
-            </th>
-            <HeaderCell k="recursivScore" label="Recursiv" />
-            {STANDARD_METRICS.map((m) => (
-              <HeaderCell key={m.key} k={m.key} label={m.short} />
+            <th className="sticky left-0 z-10 bg-panel/40 px-4 py-2.5 text-left font-mono text-[11px] uppercase tracking-wider text-faint">#</th>
+            <th className="sticky left-10 z-10 bg-panel/40 px-3 py-2.5 text-left font-mono text-[11px] uppercase tracking-wider text-faint">Model</th>
+            <Th k="recursivScore" label="Score" />
+            {STANDARD_METRICS.map((m, i) => (
+              <Th key={m.key} k={m.key} label={m.short} lead={i === 0} />
             ))}
-            {AGENTIC_METRICS.map((m) => (
-              <HeaderCell key={m.key} k={m.key} label={m.short} tone="agentic" />
+            {AGENTIC_METRICS.map((m, i) => (
+              <Th key={m.key} k={m.key} label={m.short} tone="agentic" lead={i === 0} />
             ))}
           </tr>
         </thead>
         <tbody>
-          {sorted.map((m, i) => (
-            <tr key={m.modelId} className="group border-b border-line/60 hover:bg-panel/60">
-              <td className="sticky left-0 z-10 bg-bg px-3 py-3 text-left font-mono text-sm text-faint group-hover:bg-panel/60">
-                {i + 1}
-              </td>
-              <td className="sticky left-8 z-10 bg-bg px-3 py-3 group-hover:bg-panel/60">
-                <div className="font-medium tracking-tight text-ink">{m.displayName}</div>
-                <div className="font-mono text-[11px] text-faint">{m.vendor}</div>
-              </td>
-              <td className="px-3 py-3 text-right">
-                <div className="tabular font-mono text-sm text-accent">{m.recursivScore.toFixed(1)}</div>
-              </td>
-              {STANDARD_METRICS.map((meta) => (
-                <Cell key={meta.key} model={m} mkey={meta.key} />
-              ))}
-              {AGENTIC_METRICS.map((meta) => (
-                <Cell key={meta.key} model={m} mkey={meta.key} tone="agentic" />
-              ))}
-            </tr>
-          ))}
+          {sorted.map((m, i) => {
+            const top = i < 3;
+            return (
+              <tr key={m.modelId} className={`group transition-colors hover:bg-panel ${top ? 'bg-panel/50' : ''}`}>
+                <td className={`sticky left-0 z-10 px-4 py-4 text-left font-mono text-sm ${top ? RANK_COLORS[i] : 'text-faint'} ${top ? 'bg-panel/60' : 'bg-bg'} group-hover:bg-panel`}>
+                  {top ? <span className="inline-flex items-center gap-1.5"><span className="text-base">●</span>{i + 1}</span> : i + 1}
+                </td>
+                <td className={`sticky left-10 z-10 px-3 py-4 ${top ? 'bg-panel/60' : 'bg-bg'} group-hover:bg-panel`}>
+                  <div className="text-[15px] font-semibold tracking-tight text-ink">{m.displayName}</div>
+                  <div className="font-mono text-[11px] text-faint">{m.vendor}</div>
+                </td>
+                <td className="px-3 py-4 text-right">
+                  <span className="tabular font-mono text-lg font-semibold text-accent">{m.recursivScore.toFixed(0)}</span>
+                </td>
+                {STANDARD_METRICS.map((meta, idx) => (
+                  <Cell key={meta.key} model={m} mkey={meta.key} lead={idx === 0} />
+                ))}
+                {AGENTIC_METRICS.map((meta, idx) => (
+                  <Cell key={meta.key} model={m} mkey={meta.key} tone="agentic" lead={idx === 0} />
+                ))}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
   );
 }
 
-function Cell({ model, mkey, tone }: { model: ModelScore; mkey: Metric; tone?: 'agentic' }) {
+function Cell({ model, mkey, tone, lead }: { model: ModelScore; mkey: Metric; tone?: 'agentic'; lead?: boolean }) {
   const stat = model.metrics[mkey];
-  const n = model.normalized[mkey];
   const ci = formatCI(mkey, stat);
-  const title = [
-    stat?.nRuns ? `n=${stat.nRuns}` : null,
-    ci ? `95% CI ${ci}` : null,
-  ]
-    .filter(Boolean)
-    .join(' · ');
+  const title = [stat?.nRuns ? `n=${stat.nRuns}` : null, ci ? `95% CI ${ci}` : null].filter(Boolean).join(' · ');
+  const hero = mkey === 'costToDone';
   return (
-    <td className={`px-3 py-3 text-right align-middle ${tone === 'agentic' ? 'bg-agentic/[0.03]' : ''}`} title={title || undefined}>
-      <div className={`tabular font-mono text-sm ${tone === 'agentic' ? 'text-ink' : 'text-muted'}`}>
-        {formatMetric(mkey, stat)}
-      </div>
-      <div className="mt-1.5">
-        <ScoreBar value={n} tone={tone === 'agentic' ? 'agentic' : 'accent'} />
-      </div>
+    <td
+      title={title || undefined}
+      className={`whitespace-nowrap px-3 py-4 text-right tabular font-mono text-sm ${
+        lead ? (tone === 'agentic' ? 'border-l border-agentic/40' : 'border-l border-line-bright') : ''
+      } ${tone === 'agentic' ? 'bg-agentic/[0.04]' : ''} ${
+        hero ? 'font-semibold text-agentic' : tone === 'agentic' ? 'text-ink' : 'text-muted'
+      }`}
+    >
+      {formatMetric(mkey, stat)}
     </td>
   );
-}
-
-function metaForLabel(k: SortKey): string {
-  if (k === 'recursivScore') return 'Composite score across all metrics (weighted). Click to sort.';
-  return metaFor(k).blurb + ' Click to sort.';
 }

@@ -25,12 +25,6 @@ export function Header() {
           >
             Methodology
           </Link>
-          <Link
-            href="/about"
-            className="hidden rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink sm:block"
-          >
-            About
-          </Link>
           <DemoButton className="ml-1">Book a demo</DemoButton>
         </nav>
       </div>
@@ -51,9 +45,6 @@ export function Footer() {
         <div className="flex items-center gap-5 text-xs text-muted">
           <Link href="/methodology" className="hover:text-ink">
             Methodology
-          </Link>
-          <Link href="/about" className="hover:text-ink">
-            About
           </Link>
           <a href={SITE.recursivUrl} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
             recursiv.io ↗
