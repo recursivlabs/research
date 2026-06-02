@@ -23,11 +23,11 @@ export default async function Home() {
               Official Power Rankings
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-              How LLMs actually perform at <span className="text-accent">real, multi-agent work</span>.
+              Which model should you <span className="text-accent">actually use</span>?
             </h1>
             <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
-              Every score below comes from live agentic experiments run on the Recursiv platform. Real
-              multi-step tasks, real tools, real cost.
+              We run frontier models on real tasks and rank them by what matters in production: how reliably
+              they finish, and what it really costs. Run daily by an autonomous agent swarm on Recursiv.
             </p>
           </div>
 

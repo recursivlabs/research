@@ -24,11 +24,29 @@ export interface MetricStat {
   passK?: number;
 }
 
+export type UseCase = 'coding' | 'extraction' | 'reasoning' | 'sql';
+
+export interface UseCaseMeta {
+  key: UseCase;
+  label: string;
+  blurb: string;
+}
+
+export const USE_CASES: UseCaseMeta[] = [
+  { key: 'coding', label: 'Coding', blurb: 'Bug fixes, refactors, and implementing functions with edge cases.' },
+  { key: 'extraction', label: 'Extraction', blurb: 'Pulling clean structured data out of messy text.' },
+  { key: 'reasoning', label: 'Reasoning', blurb: 'Multi-step logic and constraint problems.' },
+  { key: 'sql', label: 'SQL & APIs', blurb: 'Schema design and API/endpoint design.' },
+];
+
 export interface ModelScore {
   modelId: string; // e.g. "anthropic/claude-opus-4.6"
   displayName: string; // "Claude Opus 4.6"
   vendor: string; // "Anthropic"
+  /** aggregate metrics across all use cases */
   metrics: Partial<Record<Metric, MetricStat>>;
+  /** per-use-case metric breakdown (drives the leaderboard tabs) */
+  byCategory?: Partial<Record<UseCase, Partial<Record<Metric, MetricStat>>>>;
   /** 0–100 normalized scores for bar rendering (higher = better, direction-adjusted) */
   normalized: Partial<Record<Metric, number>>;
   /** composite, drives default sort */
@@ -78,13 +96,13 @@ export const METRIC_META: MetricMeta[] = [
   },
   {
     key: 'completionRate',
-    label: 'Task completion',
-    short: 'Completion',
+    label: 'Reliability',
+    short: 'Reliability',
     group: 'agentic',
     better: 'up',
     core: true,
-    plain: 'how reliably it finishes real tasks',
-    blurb: 'Share of real multi-step tasks finished end-to-end, reported as pass^k reliability.',
+    plain: 'how often it actually finishes the task',
+    blurb: 'How reliably the model finishes the task across repeated runs (pass^k). The production-readiness number.',
   },
   {
     key: 'toolAccuracy',
@@ -134,7 +152,7 @@ export const AGENTIC_METRICS = METRIC_META.filter((m) => m.group === 'agentic');
 export const STANDARD_METRICS = METRIC_META.filter((m) => m.group === 'standard');
 
 /** The simplified main leaderboard: the few numbers that actually matter, in display order. */
-const CORE_ORDER: Metric[] = ['completionRate', 'quality', 'costToDone'];
+const CORE_ORDER: Metric[] = ['completionRate', 'costToDone', 'quality'];
 export const CORE_METRICS: MetricMeta[] = CORE_ORDER.map((k) => METRIC_META.find((m) => m.key === k)!);
 
 export function metaFor(key: Metric): MetricMeta {
