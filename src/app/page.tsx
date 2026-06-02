@@ -27,7 +27,7 @@ export default async function Home() {
             </h1>
             <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
               We run frontier models on real tasks and rank them by what matters in production: how reliably
-              they finish, and what it really costs. Run daily by an autonomous agent swarm on Recursiv.
+              they finish, and what it really costs. Run by an autonomous agent swarm on Recursiv.
             </p>
           </div>
 

@@ -32,8 +32,8 @@ const STEPS = [
   {
     n: '03',
     title: 'Synthesized into rankings',
-    body: 'Results roll up into one overall score per model and refresh the power rankings. Continuously, in real time, with no human grading the work.',
-    tag: 'real-time · self-running',
+    body: 'Results roll up into one overall score per model and refresh the power rankings each run, with no human grading the work.',
+    tag: 'self-running',
   },
 ];
 

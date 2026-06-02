@@ -3,8 +3,10 @@ name: Daily research swarm
 # Runs the autonomous research swarm once a day within a fixed budget, commits
 # the new experiment + updated rankings + Live Lab events, and triggers a deploy.
 on:
-  schedule:
-    - cron: '0 14 * * *' # 14:00 UTC daily
+  # Daily cron is disabled until the swarm is armed with repo secrets (RECURSIV_API_KEY,
+  # RESEARCH_PROJECT_ID). Re-enable by uncommenting the schedule below.
+  # schedule:
+  #   - cron: '0 14 * * *' # 14:00 UTC daily
   workflow_dispatch:
     inputs:
       budget:
