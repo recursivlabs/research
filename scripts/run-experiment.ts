@@ -17,13 +17,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const API_KEY = process.env.RECURSIV_API_KEY!;
-const BASE_URL = process.env.NEXT_PUBLIC_RECURSIV_URL || 'https://api.recursiv.io';
+const BASE_URL = process.env.NEXT_PUBLIC_RECURSIV_URL || 'https://api.recursiv.io/api/v1';
 const PROJECT_ID = process.env.RESEARCH_PROJECT_ID!;
 const ORG_ID = process.env.RESEARCH_ORG_ID || '019c9736-d6f1-709e-a23a-a5f7f039bc56';
 const BUDGET = Number(process.env.DAILY_BUDGET_USD || 5);
 const RUNS_PER_TASK = Number(process.env.RUNS_PER_TASK || 3);
 const TASKS_PER_DAY = Number(process.env.TASKS_PER_DAY || 4);
-const JUDGE_MODEL = 'anthropic/claude-opus-4.6';
+const JUDGE_MODEL = 'anthropic/claude-sonnet-4.6';
 const MARKUP = 1.5; // platform bills ai_usage at 1.5x provider cost; we report provider cost
 const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 
@@ -121,9 +121,13 @@ function pickTasks(): Task[] {
 const sdk = new Recursiv({ apiKey: API_KEY, baseUrl: BASE_URL });
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function projectAiCost(from: string, to: string): Promise<number> {
-  // real provider $ spent in [from,to], from ai_usage via project billing window
-  const res = await sdk.billing.getProjectUsage(PROJECT_ID, { from, to });
+let RUN_START = new Date().toISOString();
+
+// Running total of provider $ on the project. getProjectUsage reports a cumulative
+// figure, so we attribute per-run cost by diffing consecutive snapshots (robust to
+// billing write-lag and to whether the `from` filter is honored).
+async function costTotal(): Promise<number> {
+  const res = await sdk.billing.getProjectUsage(PROJECT_ID, { from: RUN_START });
   const items = res.data || [];
   const ai = items.find((i) => /ai/i.test(i.item));
   const billed = ai ? Number(ai.units) : 0;
@@ -134,8 +138,8 @@ interface RunResult { model: string; task: string; costUsd: number; ms: number; 
 
 async function judge(judgeAgentId: string, task: Task, output: string): Promise<{ pass: boolean; quality: number }> {
   const prompt = `You are grading an AI model's answer to a task. Be strict.\n\nTASK: ${task.prompt}\n\nRUBRIC: ${task.rubric}\n\nMODEL ANSWER: ${output}\n\nReturn ONLY compact JSON: {"pass": true|false, "quality": 0-100}. pass = fully and correctly solves it. quality = overall quality 0-100.`;
-  const res = await sdk.agents.chat(judgeAgentId, { message: prompt, new_conversation: true });
-  const m = res.data.content.match(/\{[^}]*\}/);
+  const res = await sdk.agents.chatStreamText(judgeAgentId, { message: prompt, new_conversation: true });
+  const m = res.content.match(/\{[^}]*\}/);
   if (!m) return { pass: false, quality: 0 };
   try {
     const j = JSON.parse(m[0]);
@@ -145,6 +149,8 @@ async function judge(judgeAgentId: string, task: Task, output: string): Promise<
   }
 }
 
+const createdAgents: string[] = [];
+
 async function ensureAgent(name: string, username: string, model: string, system: string, toolMode: 'chat_only' | 'autonomous'): Promise<string> {
   const res = await sdk.agents.create({
     name,
@@ -153,9 +159,15 @@ async function ensureAgent(name: string, username: string, model: string, system
     system_prompt: system,
     tool_mode: toolMode,
     project_id: PROJECT_ID,
-    organization_id: ORG_ID,
   });
+  createdAgents.push(res.data.id);
   return res.data.id;
+}
+
+async function cleanup() {
+  for (const id of createdAgents) {
+    try { await sdk.agents.delete(id); } catch {}
+  }
 }
 
 const stream: { ts: string; kind: string; actor: string; text: string; experiment?: string }[] = [];
@@ -179,15 +191,19 @@ function ci95(xs: number[]): [number, number] | undefined {
 }
 
 async function main() {
-  const validate = process.env.VALIDATE === '1';
-  const models = validate ? MODELS.slice(4, 5) : MODELS; // 1 cheap model for validate
-  const tasks = validate ? pickTasks().slice(0, 1) : pickTasks();
-  const runs = validate ? 1 : RUNS_PER_TASK;
+  const validate = process.env.VALIDATE === '1'; // print-only, no file writes
+  const limit = process.env.MODELS_LIMIT ? Number(process.env.MODELS_LIMIT) : 0;
+  const models = limit ? MODELS.slice(0, limit) : MODELS;
+  const tasks = pickTasks();
+  const runs = RUNS_PER_TASK;
 
   emit('swarm', 'orchestrator', `Daily research cycle started for ${RUN_DATE}. ${models.length} models, ${tasks.length} tasks, budget $${BUDGET}.`);
 
+  RUN_START = new Date(Date.now() - 5000).toISOString();
   const judgeId = await ensureAgent('Judge', 'eval_judge', JUDGE_MODEL, 'You are a strict, fair grader of AI outputs. Return only the requested JSON.', 'chat_only');
 
+  const baseline = await costTotal();
+  let prevCost = baseline;
   let spent = 0;
   const results: RunResult[] = [];
   outer: for (const model of models) {
@@ -199,18 +215,35 @@ async function main() {
           emit('swarm', 'orchestrator', `Daily budget $${BUDGET} reached. Wrapping up.`);
           break outer;
         }
-        const from = new Date(Date.now() - 1000).toISOString();
+        const before = prevCost;
         const t0 = Date.now();
-        const res = await sdk.agents.chat(agentId, { message: task.prompt, new_conversation: true });
+        let content = '';
+        let failed = false;
+        try {
+          const res = await sdk.agents.chatStreamText(agentId, { message: task.prompt, new_conversation: true });
+          content = res.content;
+        } catch (e: any) {
+          failed = true;
+          emit('retry', `runner/${model.vendor.toLowerCase()}`, `${model.id} failed '${task.title}': ${e?.code || e?.message || 'error'}. Counts as an incomplete.`);
+        }
         const ms = Date.now() - t0;
-        await sleep(4000); // let ai_usage persist
-        const to = new Date().toISOString();
-        const costUsd = await projectAiCost(from, to);
-        spent += costUsd;
-        emit('run', `runner/${model.vendor.toLowerCase()}`, `${model.id} finished '${task.title}' in ${(ms / 1000).toFixed(1)}s ($${costUsd.toFixed(3)}).`);
-        const grade = await judge(judgeId, task, res.data.content);
-        emit('judge', 'judge-opus', `Scored ${model.id} on '${task.title}': ${grade.pass ? 'pass' : 'fail'}, quality ${grade.quality}.`);
-        results.push({ model: model.id, task: task.id, costUsd, ms, pass: grade.pass, quality: grade.quality, output: res.data.content });
+        await sleep(5000); // let ai_usage persist
+        const afterModel = await costTotal();
+        const costUsd = Math.max(0, afterModel - before);
+        let grade = { pass: false, quality: 0 };
+        if (!failed && content.trim()) {
+          emit('run', `runner/${model.vendor.toLowerCase()}`, `${model.id} finished '${task.title}' in ${(ms / 1000).toFixed(1)}s ($${costUsd.toFixed(3)}).`);
+          try {
+            grade = await judge(judgeId, task, content);
+          } catch {
+            emit('retry', 'judge', `Judge failed on ${model.id} / '${task.title}'.`);
+          }
+          await sleep(3000); // let judge ai_usage persist, then exclude it from the next run
+          emit('judge', 'judge', `Scored ${model.id} on '${task.title}': ${grade.pass ? 'pass' : 'fail'}, quality ${grade.quality}.`);
+        }
+        prevCost = await costTotal();
+        spent = prevCost - baseline;
+        results.push({ model: model.id, task: task.id, costUsd, ms, pass: grade.pass, quality: grade.quality, output: content || '(no response)' });
       }
     }
   }
@@ -283,4 +316,10 @@ function persistStream() {
   fs.writeFileSync(file, JSON.stringify(merged, null, 2));
 }
 
-main().catch((e) => { console.error(e); process.exit(1); });
+main()
+  .then(cleanup)
+  .catch(async (e) => {
+    console.error(e);
+    await cleanup();
+    process.exit(1);
+  });
