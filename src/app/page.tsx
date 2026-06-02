@@ -20,7 +20,7 @@ export default async function Home() {
           <div className="mb-6 max-w-3xl">
             <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
               <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-              Daily Model Power Rankings, by Recursiv
+              Official Power Rankings
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
               How LLMs actually perform at <span className="text-accent">real, multi-agent work</span>.
@@ -36,7 +36,7 @@ export default async function Home() {
               <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-good" />
               Live data
             </span>
-            <span className="text-faint">updated from Recursiv {timeAgo(board.updatedAt)}</span>
+            <span className="text-faint">updated by Recursiv&apos;s autonomous research swarm {timeAgo(board.updatedAt)}</span>
           </div>
 
           <Leaderboard models={board.models} />

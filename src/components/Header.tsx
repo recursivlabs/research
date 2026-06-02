@@ -20,8 +20,15 @@ export function Header() {
             Leaderboard
           </Link>
           <Link
+            href="/live-lab"
+            className="group inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink"
+          >
+            <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-good" />
+            Live Lab
+          </Link>
+          <Link
             href="/experiments"
-            className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink"
+            className="hidden rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink sm:block"
           >
             Experiments
           </Link>
@@ -49,6 +56,9 @@ export function Footer() {
           <p className="mt-1 max-w-sm text-xs text-faint">{SITE.tagline}</p>
         </div>
         <div className="flex items-center gap-5 text-xs text-muted">
+          <Link href="/live-lab" className="hover:text-ink">
+            Live Lab
+          </Link>
           <Link href="/experiments" className="hover:text-ink">
             Experiments
           </Link>

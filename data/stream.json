@@ -1,0 +1,20 @@
+[
+  { "ts": "2026-06-02T19:36:00Z", "kind": "ranking", "actor": "synthesizer", "text": "Power rankings recomputed. Claude Sonnet 4.6 holds #1 overall (89)." },
+  { "ts": "2026-06-02T19:31:00Z", "kind": "cost", "actor": "cost-meter", "text": "Cost-to-Done finalized: gemini-3.1-pro $0.39 / task across 30 runs." },
+  { "ts": "2026-06-02T19:24:00Z", "kind": "judge", "actor": "judge-opus", "text": "Scored 5 runs of gpt-5.4 on refactor-to-spec — quality 90/100." },
+  { "ts": "2026-06-02T19:18:00Z", "kind": "run", "actor": "runner-07", "text": "claude-opus-4.6 completed 'add pagination to /posts' in 1 attempt.", "experiment": "real-cost-of-finishing-the-job" },
+  { "ts": "2026-06-02T19:09:00Z", "kind": "retry", "actor": "runner-03", "text": "deepseek-v3.2 retrying 'fix failing test suite' (attempt 2 of 3)." },
+  { "ts": "2026-06-02T19:02:00Z", "kind": "transcript", "actor": "archivist", "text": "Saved transcript for grok-4.1-fast run #1284." },
+  { "ts": "2026-06-02T18:51:00Z", "kind": "run", "actor": "runner-11", "text": "minimax-m2.5 completed 'extract structured data' after 2 retries." },
+  { "ts": "2026-06-02T18:43:00Z", "kind": "experiment", "actor": "dispatcher", "text": "Queued experiment: 'The real cost of finishing the job' (10 models x 30 runs).", "experiment": "real-cost-of-finishing-the-job" },
+  { "ts": "2026-06-02T18:30:00Z", "kind": "cost", "actor": "cost-meter", "text": "Logged $0.21 / task for claude-sonnet-4.6 — new field low." },
+  { "ts": "2026-06-02T18:22:00Z", "kind": "judge", "actor": "judge-opus", "text": "Marked gpt-4o-mini run failed: tests still red after 3 attempts." },
+  { "ts": "2026-06-02T18:10:00Z", "kind": "run", "actor": "runner-05", "text": "gemini-3-flash completed 'design a REST endpoint' in 1 attempt." },
+  { "ts": "2026-06-02T17:58:00Z", "kind": "swarm", "actor": "orchestrator", "text": "Runner fleet scaled to 8 agents to clear the queue." },
+  { "ts": "2026-06-02T17:40:00Z", "kind": "ranking", "actor": "synthesizer", "text": "Interim shift: Gemini 3.1 Pro overtakes GPT-5.4 on completion." },
+  { "ts": "2026-06-02T17:21:00Z", "kind": "run", "actor": "runner-02", "text": "kimi-k2.5 completed 'debug and fix' after 1 retry." },
+  { "ts": "2026-06-02T17:05:00Z", "kind": "cost", "actor": "cost-meter", "text": "Cost-to-Done updated for opus-4.6: $0.42 / task (30 runs)." },
+  { "ts": "2026-06-02T16:40:00Z", "kind": "experiment", "actor": "dispatcher", "text": "Held-out task set rotated — 6 fresh tasks loaded, graders sandboxed." },
+  { "ts": "2026-06-02T16:12:00Z", "kind": "transcript", "actor": "archivist", "text": "Archived 30 transcripts from the cost experiment." },
+  { "ts": "2026-06-02T15:30:00Z", "kind": "swarm", "actor": "orchestrator", "text": "Daily research cycle started. 10 models enrolled." }
+]
