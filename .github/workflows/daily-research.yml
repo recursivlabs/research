@@ -1,0 +1,51 @@
+name: Daily research swarm
+
+# Runs the autonomous research swarm once a day within a fixed budget, commits
+# the new experiment + updated rankings + Live Lab events, and triggers a deploy.
+on:
+  schedule:
+    - cron: '0 14 * * *' # 14:00 UTC daily
+  workflow_dispatch:
+    inputs:
+      budget:
+        description: 'Daily budget in USD'
+        required: false
+        default: '5'
+
+concurrency:
+  group: daily-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Run the swarm
+        env:
+          RECURSIV_API_KEY: ${{ secrets.RECURSIV_API_KEY }}
+          RESEARCH_PROJECT_ID: ${{ secrets.RESEARCH_PROJECT_ID }}
+          DAILY_BUDGET_USD: ${{ github.event.inputs.budget || vars.DAILY_BUDGET_USD || '5' }}
+          RUNS_PER_TASK: ${{ vars.RUNS_PER_TASK || '3' }}
+          TASKS_PER_DAY: ${{ vars.TASKS_PER_DAY || '4' }}
+        run: npm run experiment
+      - name: Commit results
+        run: |
+          git config user.name "recursiv-research-swarm"
+          git config user.email "swarm@recursiv.io"
+          git add data/ content/
+          if git diff --staged --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "research: autonomous daily experiment ($(date -u +%F))"
+            git push
+          fi
+      - name: Trigger deploy
+        if: ${{ secrets.RECURSIV_DEPLOY_WEBHOOK != '' }}
+        run: curl -fsSL -X POST "${{ secrets.RECURSIV_DEPLOY_WEBHOOK }}" || true
