@@ -6,7 +6,7 @@ export function ExperimentCard({ exp }: { exp: Experiment }) {
   return (
     <Link
       href={`/experiments/${exp.slug}`}
-      className="group relative flex flex-col justify-between overflow-hidden rounded-lg border border-line bg-panel p-5 transition-colors hover:border-line-bright"
+      className="group relative flex h-full flex-col justify-between overflow-hidden rounded-lg border border-line bg-panel p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-line-bright hover:shadow-glow"
     >
       <div>
         <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-faint">

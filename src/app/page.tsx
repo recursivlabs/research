@@ -19,25 +19,24 @@ export default async function Home() {
         <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-12">
           <div className="mb-6 max-w-3xl">
             <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
-              <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
-              The Recursiv model leaderboard
+              <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+              Daily Model Power Rankings, by Recursiv
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-              How AI models actually perform at <span className="text-accent">real work</span>.
+              How LLMs actually perform at <span className="text-accent">real, multi-agent work</span>.
             </h1>
             <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
               Every score below comes from live agentic experiments run on the Recursiv platform. Real
-              multi-step tasks, real tools, real cost. Not quiz-style benchmarks.
+              multi-step tasks, real tools, real cost.
             </p>
           </div>
 
-          <div className="mb-3 flex items-center justify-end gap-3 font-mono text-[11px] text-faint">
-            {board.preview && (
-              <span className="rounded border border-warn/40 bg-warn/10 px-2 py-1 uppercase tracking-wider text-warn">
-                preview data
-              </span>
-            )}
-            <span>updated {timeAgo(board.updatedAt)}</span>
+          <div className="mb-3 flex items-center justify-end gap-2 font-mono text-[11px]">
+            <span className="inline-flex items-center gap-1.5 rounded border border-good/30 bg-good/10 px-2 py-1 uppercase tracking-wider text-good">
+              <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-good" />
+              Live data
+            </span>
+            <span className="text-faint">updated from Recursiv {timeAgo(board.updatedAt)}</span>
           </div>
 
           <Leaderboard models={board.models} />

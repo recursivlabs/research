@@ -14,16 +14,22 @@ export function Header() {
         </Link>
         <nav className="flex items-center gap-1 sm:gap-2">
           <Link
-            href="/#leaderboard"
+            href="/"
             className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink"
           >
             Leaderboard
           </Link>
           <Link
-            href="/methodology"
+            href="/experiments"
             className="rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink"
           >
-            Methodology
+            Experiments
+          </Link>
+          <Link
+            href="/methodology"
+            className="hidden rounded-md px-3 py-1.5 text-sm text-muted transition-colors hover:text-ink sm:block"
+          >
+            How it works
           </Link>
           <DemoButton className="ml-1">Book a demo</DemoButton>
         </nav>
@@ -43,8 +49,11 @@ export function Footer() {
           <p className="mt-1 max-w-sm text-xs text-faint">{SITE.tagline}</p>
         </div>
         <div className="flex items-center gap-5 text-xs text-muted">
+          <Link href="/experiments" className="hover:text-ink">
+            Experiments
+          </Link>
           <Link href="/methodology" className="hover:text-ink">
-            Methodology
+            How it works
           </Link>
           <a href={SITE.recursivUrl} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
             recursiv.io ↗

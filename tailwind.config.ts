@@ -20,6 +20,9 @@ const config: Config = {
         // Recursiv-only / agentic group
         agentic: '#b78bff',
         'agentic-dim': '#6b4fb0',
+        // per-metric accents
+        completion: '#54d98c',
+        quality: '#5ea8ff',
         good: '#54d98c',
         warn: '#f0b34a',
         bad: '#ef6b73',
