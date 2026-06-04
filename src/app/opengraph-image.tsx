@@ -6,7 +6,7 @@ export const alt = 'Daily Model Power Rankings, by Recursiv';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-const MEDAL = ['#39e0c8', '#e8ecf2', '#b9c2cf'];
+const MEDAL = ['#0b9d76', '#0e1726', '#8a95a4'];
 
 export default async function Image() {
   const board = await loadLeaderboard();
@@ -20,16 +20,16 @@ export default async function Image() {
           height: '100%',
           display: 'flex',
           flexDirection: 'column',
-          background: '#060709',
-          color: '#e8ecf2',
+          background: '#ffffff',
+          color: '#0e1726',
           padding: 56,
           fontFamily: 'monospace',
         }}
       >
         {/* top bar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 22, color: '#8a93a3' }}>
-            <div style={{ width: 12, height: 12, borderRadius: 999, background: '#39e0c8' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 22, color: '#586273' }}>
+            <div style={{ width: 12, height: 12, borderRadius: 999, background: '#0b9d76' }} />
             recursiv / research
           </div>
           <div
@@ -38,24 +38,24 @@ export default async function Image() {
               alignItems: 'center',
               gap: 8,
               fontSize: 18,
-              color: '#54d98c',
-              border: '1px solid rgba(84,217,140,0.3)',
-              background: 'rgba(84,217,140,0.1)',
+              color: '#15a34a',
+              border: '1px solid rgba(21,163,74,0.3)',
+              background: 'rgba(21,163,74,0.1)',
               borderRadius: 6,
               padding: '6px 12px',
             }}
           >
-            <div style={{ width: 10, height: 10, borderRadius: 999, background: '#54d98c' }} />
+            <div style={{ width: 10, height: 10, borderRadius: 999, background: '#15a34a' }} />
             LIVE
           </div>
         </div>
 
         {/* title */}
         <div style={{ display: 'flex', marginTop: 28, fontSize: 52, fontWeight: 700 }}>
-          <span style={{ color: '#e8ecf2', marginRight: 18 }}>Daily Model</span>
-          <span style={{ color: '#39e0c8' }}>Power Rankings</span>
+          <span style={{ color: '#0e1726', marginRight: 18 }}>Daily Model</span>
+          <span style={{ color: '#0b9d76' }}>Power Rankings</span>
         </div>
-        <div style={{ display: 'flex', marginTop: 8, fontSize: 22, color: '#8a93a3' }}>
+        <div style={{ display: 'flex', marginTop: 8, fontSize: 22, color: '#586273' }}>
           How LLMs actually perform at real, multi-agent work
         </div>
 
@@ -64,19 +64,19 @@ export default async function Image() {
           {top.map((m, i) => (
             <div key={m.modelId} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 18 }}>
-                <div style={{ display: 'flex', width: 34, fontSize: 26, fontWeight: 700, color: i < 3 ? MEDAL[i] : '#5b6472' }}>
+                <div style={{ display: 'flex', width: 34, fontSize: 26, fontWeight: 700, color: i < 3 ? MEDAL[i] : '#8a95a4' }}>
                   {`${i + 1}`}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div style={{ display: 'flex', fontSize: 26, fontWeight: 700, color: '#e8ecf2' }}>{m.displayName}</div>
-                  <div style={{ display: 'flex', fontSize: 15, color: '#5b6472' }}>{m.vendor}</div>
+                  <div style={{ display: 'flex', fontSize: 26, fontWeight: 700, color: '#0e1726' }}>{m.displayName}</div>
+                  <div style={{ display: 'flex', fontSize: 15, color: '#8a95a4' }}>{m.vendor}</div>
                 </div>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-                <div style={{ display: 'flex', width: 320, height: 12, background: '#11141a', borderRadius: 6 }}>
-                  <div style={{ width: `${Math.max(4, m.recursivScore)}%`, height: 12, background: '#39e0c8', borderRadius: 6 }} />
+                <div style={{ display: 'flex', width: 320, height: 12, background: '#eef2f6', borderRadius: 6 }}>
+                  <div style={{ width: `${Math.max(4, m.recursivScore)}%`, height: 12, background: '#0b9d76', borderRadius: 6 }} />
                 </div>
-                <div style={{ display: 'flex', width: 56, justifyContent: 'flex-end', fontSize: 30, fontWeight: 700, color: '#39e0c8' }}>
+                <div style={{ display: 'flex', width: 56, justifyContent: 'flex-end', fontSize: 30, fontWeight: 700, color: '#0b9d76' }}>
                   {`${Math.round(m.recursivScore)}`}
                 </div>
               </div>

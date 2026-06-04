@@ -69,11 +69,32 @@ const TASK_POOL: Task[] = [
     prompt: 'Ada, Bo, Cy each have a different pet (cat, dog, fish). Ada does not have the cat. Bo has the dog. Who has the fish? Answer with just the name.',
     rubric: 'Answer is Ada.' },
   { id: 'schedule-puzzle', title: 'Resolve a scheduling constraint', category: 'reasoning',
-    prompt: 'Three 1-hour meetings A,B,C between 1–4pm, one per slot. A is before C. B is not at 2pm. What time is each? Answer as A=?,B=?,C=?.',
-    rubric: 'Valid: A=1,B=3,C=... wait check: B not 2pm and A before C. A=1,B=3,C=2? A before C means A slot < C slot. Slots 1,2,3pm. A<C, B!=2. Valid: A=1,B=3,C=2 (A<C ok, B=3 ok). Accept any assignment satisfying A before C, B!=2pm, distinct.' },
+    prompt: 'Three 1-hour meetings A,B,C, one each at 1pm, 2pm, 3pm. A is before C. B is not at 2pm. What time is each? Answer as A=?,B=?,C=?.',
+    rubric: 'Distinct 1/2/3pm slots with A earlier than C and B not at 2pm. Valid example: A=1pm,B=3pm,C=2pm. Accept any assignment meeting all three constraints.' },
+  { id: 'deduction', title: 'Order finishers from clues', category: 'reasoning',
+    prompt: 'Four runners finished a race. Cara beat Dan. Dan beat Eve. Finn finished last. Who came first? Answer with just the name.',
+    rubric: 'Answer is Cara.' },
+  { id: 'word-problem', title: 'Multi-step arithmetic', category: 'reasoning',
+    prompt: 'A store sells pens at 3 for $2. You buy 12 pens and pay with a $20 bill. How much change do you get? Answer with just the dollar amount.',
+    rubric: '12 pens = 4 sets at $2 = $8; change = $12. Answer is $12.' },
+  { id: 'extract-dates', title: 'Normalize dates to ISO', category: 'extraction',
+    prompt: 'Convert every date to ISO YYYY-MM-DD in a JSON array. Text: "Born March 3, 1990. Hired 12/01/2020. Renewed on 2021-6-7." Return only JSON.',
+    rubric: '["1990-03-03","2020-12-01","2021-06-07"], valid JSON, zero-padded.' },
+  { id: 'extract-prices', title: 'Parse a price list to JSON', category: 'extraction',
+    prompt: 'Extract to a JSON array of {item,price}. Text: "Widget $4.50, Gadget $12, Bolt 0.30 each, Cable - $3.25". Return only JSON.',
+    rubric: 'Four items with numeric prices [4.50,12,0.30,3.25]. Valid JSON.' },
+  { id: 'dedupe', title: 'Dedupe preserving order', category: 'coding',
+    prompt: 'Write a JS function unique(arr) that returns arr with duplicates removed, preserving first-occurrence order. Return only the function.',
+    rubric: 'Removes duplicates and preserves first-occurrence order, e.g. [...new Set(arr)] or equivalent.' },
   { id: 'sql-schema', title: 'Design a multi-tenant schema', category: 'sql',
     prompt: 'Design a minimal Postgres schema for a multi-tenant todo app (orgs, users, projects, tasks) with tenant isolation. Return CREATE TABLE statements only.',
     rubric: 'Tables with FKs and organization_id on tenant-scoped tables, PKs, sensible types.' },
+  { id: 'sql-top-customers', title: 'Top customers by spend', category: 'sql',
+    prompt: 'Tables: customers(id,name), orders(id,customer_id,total). Write a SQL query for the top 3 customers by total spend, returning name and total. Return only the SQL.',
+    rubric: 'JOIN on customer_id, SUM(total), GROUP BY, ORDER BY total DESC, LIMIT 3. Correct.' },
+  { id: 'sql-fix-groupby', title: 'Fix a broken GROUP BY', category: 'sql',
+    prompt: 'Fix this query so it returns each status with its count. Return only the SQL.\nSELECT status, COUNT(*) FROM orders;',
+    rubric: 'Adds GROUP BY status. Otherwise correct.' },
   { id: 'api-design', title: 'Design a paginated search API', category: 'sql',
     prompt: 'Design a REST API for paginated search over posts: method, path, query params, and JSON response shape with pagination metadata. Be concise.',
     rubric: 'GET with q + limit/offset or cursor; response has results + total/next. Complete.' },
@@ -110,12 +131,41 @@ async function ensureAgent(name: string, username: string, model: string, system
 }
 async function cleanup() { for (const id of createdAgents) { try { await sdk.agents.delete(id); } catch {} } }
 
-async function judge(judgeAgentId: string, task: Task, output: string): Promise<{ pass: boolean; quality: number }> {
-  const prompt = `Grade an AI model's answer. Be strict.\n\nTASK: ${task.prompt}\n\nRUBRIC: ${task.rubric}\n\nANSWER: ${output}\n\nReturn ONLY compact JSON: {"pass": true|false, "quality": 0-100}. pass = fully correct. quality = 0-100.`;
-  const res = await sdk.agents.chatStreamText(judgeAgentId, { message: prompt, new_conversation: true });
-  const m = res.content.match(/\{[^}]*\}/);
-  if (!m) return { pass: false, quality: 0 };
-  try { const j = JSON.parse(m[0]); return { pass: !!j.pass, quality: Math.max(0, Math.min(100, Number(j.quality) || 0)) }; } catch { return { pass: false, quality: 0 }; }
+// Returns a grade, or null if the judge could not produce a parseable verdict
+// after retries (so the caller can EXCLUDE the run rather than score it 0).
+async function judge(judgeAgentId: string, task: Task, output: string): Promise<{ pass: boolean; quality: number } | null> {
+  const prompt = `Grade an AI model's answer. Be strict but fair.\n\nTASK: ${task.prompt}\n\nRUBRIC: ${task.rubric}\n\nANSWER: ${output}\n\nReturn ONLY compact JSON, nothing else: {"pass": true|false, "quality": 0-100}. pass = fully correct. quality = 0-100.`;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const res = await sdk.agents.chatStreamText(judgeAgentId, { message: prompt, new_conversation: true });
+      const m = res.content.match(/\{[\s\S]*?\}/);
+      if (m) {
+        const j = JSON.parse(m[0]);
+        if (j.quality !== undefined || j.pass !== undefined) {
+          return { pass: !!j.pass, quality: Math.max(0, Math.min(100, Number(j.quality) || 0)) };
+        }
+      }
+    } catch {
+      /* retry */
+    }
+    await sleep(1500);
+  }
+  return null;
+}
+
+// Run a model with retries; empty/errored responses (transient provider issues,
+// common right after a model is allowlisted) are retried before giving up.
+async function runModel(agentId: string, prompt: string): Promise<string> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      const c = (await sdk.agents.chatStreamText(agentId, { message: prompt, new_conversation: true })).content;
+      if (c && c.trim()) return c;
+    } catch {
+      /* retry */
+    }
+    await sleep(2500);
+  }
+  return '';
 }
 
 const stream: { ts: string; kind: string; actor: string; text: string; experiment?: string }[] = [];
@@ -171,23 +221,35 @@ async function main() {
         if (spent >= BUDGET) { emit('swarm', 'orchestrator', `Budget $${BUDGET} reached. Wrapping up.`); break outer; }
         const before = prevCost;
         const t0 = Date.now();
-        let content = ''; let failed = false;
-        try { content = (await sdk.agents.chatStreamText(agentId, { message: task.prompt, new_conversation: true })).content; }
-        catch (e: any) { failed = true; emit('retry', `runner/${model.vendor.toLowerCase()}`, `${model.id} failed '${task.title}': ${e?.code || 'error'}. Counts as incomplete.`); }
+        const content = await runModel(agentId, task.prompt);
         const ms = Date.now() - t0;
         await sleep(5000);
+
+        // genuine no-response after retries → real incomplete
+        if (!content) {
+          prevCost = await costTotal();
+          spent = prevCost - baseline;
+          emit('retry', `runner/${model.vendor.toLowerCase()}`, `${model.id} gave no response on '${task.title}' after retries — counts as incomplete.`);
+          results.push({ model: model.id, category: task.category, task: task.id, costUsd: Math.max(0, prevCost - before), ms, pass: false, quality: 0, output: '(no response)' });
+          continue;
+        }
+
         const afterModel = await costTotal();
         const costUsd = Math.max(0, afterModel - before);
-        let grade = { pass: false, quality: 0 };
-        if (!failed && content.trim()) {
-          emit('run', `runner/${model.vendor.toLowerCase()}`, `${model.id} finished '${task.title}' in ${(ms / 1000).toFixed(1)}s ($${costUsd.toFixed(3)}).`);
-          try { grade = await judge(judgeId, task, content); } catch { emit('retry', 'judge', `Judge failed on ${model.id} / '${task.title}'.`); }
-          await sleep(3000);
-          emit('judge', 'judge', `Scored ${model.id} on '${task.title}': ${grade.pass ? 'pass' : 'fail'}, quality ${grade.quality}.`);
-        }
+        emit('run', `runner/${model.vendor.toLowerCase()}`, `${model.id} finished '${task.title}' in ${(ms / 1000).toFixed(1)}s ($${costUsd.toFixed(3)}).`);
+
+        const grade = await judge(judgeId, task, content);
+        await sleep(3000);
         prevCost = await costTotal();
         spent = prevCost - baseline;
-        results.push({ model: model.id, category: task.category, task: task.id, costUsd, ms, pass: grade.pass, quality: grade.quality, output: content || '(no response)' });
+
+        // ungraded (judge couldn't produce a verdict) → EXCLUDE, don't score 0
+        if (grade === null) {
+          emit('retry', 'judge', `could not grade ${model.id} on '${task.title}' — excluded from results.`);
+          continue;
+        }
+        emit('judge', 'judge', `Scored ${model.id} on '${task.title}': ${grade.pass ? 'pass' : 'fail'}, quality ${grade.quality}.`);
+        results.push({ model: model.id, category: task.category, task: task.id, costUsd, ms, pass: grade.pass, quality: grade.quality, output: content });
       }
     }
   }

@@ -160,3 +160,15 @@ export function metaFor(key: Metric): MetricMeta {
   if (!m) throw new Error(`unknown metric ${key}`);
   return m;
 }
+
+// ---- live research stream -----------------------------------------------------
+
+export type StreamKind = 'ranking' | 'experiment' | 'run' | 'judge' | 'cost' | 'retry' | 'transcript' | 'swarm';
+
+export interface StreamEvent {
+  ts: string; // ISO
+  kind: StreamKind;
+  actor: string;
+  text: string;
+  experiment?: string;
+}

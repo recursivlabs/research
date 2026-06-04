@@ -60,7 +60,7 @@ export function Frontier({ points }: { points: FrontierPoint[] }) {
         {/* y gridlines */}
         {[0, 0.25, 0.5, 0.75, 1].map((r) => (
           <g key={r}>
-            <line x1={PAD.l} x2={W - PAD.r} y1={yScale(r)} y2={yScale(r)} stroke="#11141a" strokeWidth={1} />
+            <line x1={PAD.l} x2={W - PAD.r} y1={yScale(r)} y2={yScale(r)} stroke="#e5e9ef" strokeWidth={1} />
             <text x={PAD.l - 10} y={yScale(r) + 4} textAnchor="end" className="fill-faint" fontSize={11} fontFamily="var(--font-mono)">
               {Math.round(r * 100)}%
             </text>
@@ -69,7 +69,7 @@ export function Frontier({ points }: { points: FrontierPoint[] }) {
         {/* x ticks */}
         {ticks.map((c) => (
           <g key={c}>
-            <line x1={xScale(c)} x2={xScale(c)} y1={PAD.t} y2={H - PAD.b} stroke="#0e1117" strokeWidth={1} />
+            <line x1={xScale(c)} x2={xScale(c)} y1={PAD.t} y2={H - PAD.b} stroke="#eef2f6" strokeWidth={1} />
             <text x={xScale(c)} y={H - PAD.b + 18} textAnchor="middle" className="fill-faint" fontSize={11} fontFamily="var(--font-mono)">
               ${c.toFixed(2)}
             </text>
@@ -84,7 +84,7 @@ export function Frontier({ points }: { points: FrontierPoint[] }) {
         </text>
 
         {/* frontier line */}
-        <path d={frontierPath} fill="none" stroke="#39e0c8" strokeWidth={1.5} strokeDasharray="2 3" opacity={0.7} />
+        <path d={frontierPath} fill="none" stroke="#0b9d76" strokeWidth={1.5} strokeDasharray="2 3" opacity={0.7} />
 
         {/* points */}
         {points.map((p) => {
@@ -101,7 +101,7 @@ export function Frontier({ points }: { points: FrontierPoint[] }) {
                   x2={xScale(p.costHi)}
                   y1={y}
                   y2={y}
-                  stroke={onFrontier ? '#39e0c8' : '#2a313d'}
+                  stroke={onFrontier ? '#0b9d76' : '#d3dae3'}
                   strokeWidth={1}
                   opacity={isHover ? 0.9 : 0.4}
                 />
@@ -110,8 +110,8 @@ export function Frontier({ points }: { points: FrontierPoint[] }) {
                 cx={x}
                 cy={y}
                 r={isHover ? 6 : onFrontier ? 5 : 4}
-                fill={onFrontier ? '#39e0c8' : '#11141a'}
-                stroke={onFrontier ? '#39e0c8' : '#3a424f'}
+                fill={onFrontier ? '#0b9d76' : '#ffffff'}
+                stroke={onFrontier ? '#0b9d76' : '#8a95a4'}
                 strokeWidth={1.5}
                 opacity={onFrontier || isHover ? 1 : 0.65}
               />

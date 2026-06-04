@@ -2,7 +2,7 @@ import { loadLeaderboard } from '@/lib/leaderboard';
 import { getAllExperiments } from '@/lib/experiments';
 import { Leaderboard } from '@/components/Leaderboard';
 import { ExperimentCard } from '@/components/ExperimentCard';
-import { CTASection, DemoButton } from '@/components/CTA';
+import { CTASection } from '@/components/CTA';
 import { timeAgo } from '@/lib/format';
 
 export const revalidate = 60;
@@ -10,42 +10,44 @@ export const revalidate = 60;
 export default async function Home() {
   const board = await loadLeaderboard();
   const experiments = getAllExperiments();
+  const nRuns = board.models.reduce((s, m) => s + (m.metrics.completionRate?.nRuns ?? 0), 0);
+  const version = board.updatedAt.slice(0, 10).replace(/-/g, '.');
 
   return (
     <>
-      {/* leaderboard is the hero */}
+      {/* the index is the hero */}
       <section className="relative border-b border-line">
         <div className="bg-grid-faint absolute inset-0 h-40" aria-hidden />
         <div className="relative mx-auto max-w-6xl px-6 pb-16 pt-12">
-          <div className="mb-6 max-w-3xl">
-            <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
-              <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
-              Official Power Rankings
-            </div>
-            <h1 className="mt-4 text-balance text-3xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-              Which model should you <span className="text-accent">actually use</span>?
-            </h1>
-            <p className="mt-4 max-w-xl text-base text-muted sm:text-lg">
-              We run frontier models on real tasks and rank them by what matters in production: how reliably
-              they finish, and what it really costs. Run by an autonomous agent swarm on Recursiv.
-            </p>
+          <div className="mb-5 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+            <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-accent" />
+            Recursiv<span className="text-faint">//</span>Research · Power Rankings
           </div>
 
-          <div className="mb-3 flex items-center justify-end gap-2 font-mono text-[11px]">
-            <span className="inline-flex items-center gap-1.5 rounded border border-good/30 bg-good/10 px-2 py-1 uppercase tracking-wider text-good">
+          {/* instrument stamp */}
+          <div className="mb-3 flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-line pt-3 font-mono text-[11px] text-faint">
+            <span className="inline-flex items-center gap-1.5 text-good">
               <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-good" />
-              Live data
+              LIVE
             </span>
-            <span className="text-faint">updated by Recursiv&apos;s autonomous research swarm {timeAgo(board.updatedAt)}</span>
+            <span>v{version}</span>
+            <span className="text-line-bright">·</span>
+            <span>n={nRuns} runs</span>
+            <span className="text-line-bright">·</span>
+            <span>{board.models.length} models</span>
+            <span className="text-line-bright">·</span>
+            <span>4 use-cases</span>
+            <span className="text-line-bright">·</span>
+            <span>held-out · judge-graded</span>
+            <span className="ml-auto">updated {timeAgo(board.updatedAt)}</span>
           </div>
 
           <Leaderboard models={board.models} />
 
-          <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
+          <div className="mt-5">
             <a href="/methodology" className="font-mono text-xs text-faint transition-colors hover:text-accent">
-              how we measure →
+              read the methods →
             </a>
-            <DemoButton variant="ghost">Book a demo</DemoButton>
           </div>
         </div>
       </section>

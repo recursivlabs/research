@@ -55,11 +55,32 @@ export function Leaderboard({ models }: { models: ModelScore[] }) {
   return (
     <div>
       {/* verdict cards */}
-      <div className="mb-5 grid gap-3 sm:grid-cols-3">
-        <Verdict label="Best value" model={bestValue?.m.displayName} stat={bestValue ? `${formatMetric('completionRate', bestValue.mm.completionRate)} at ${formatMetric('costToDone', bestValue.mm.costToDone)}` : ''} tone="accent" />
-        <Verdict label="Most reliable" model={mostReliable?.m.displayName} stat={mostReliable ? `${formatMetric('completionRate', mostReliable.mm.completionRate)} finished` : ''} tone="completion" />
-        <Verdict label="Cheapest that works" model={cheapest?.m.displayName} stat={cheapest ? `${formatMetric('costToDone', cheapest.mm.costToDone)} · ${formatMetric('completionRate', cheapest.mm.completionRate)}` : ''} tone="agentic" />
+      <div className="mb-2 grid gap-3 sm:grid-cols-3">
+        <Verdict
+          label="Best value"
+          why="most reliability per dollar"
+          model={bestValue?.m.displayName}
+          stat={bestValue ? `finishes ${formatMetric('completionRate', bestValue.mm.completionRate)} of tasks at ${formatMetric('costToDone', bestValue.mm.costToDone)} each` : ''}
+          tone="accent"
+        />
+        <Verdict
+          label="Most reliable"
+          why="finishes the most tasks"
+          model={mostReliable?.m.displayName}
+          stat={mostReliable ? `${formatMetric('completionRate', mostReliable.mm.completionRate)} of tasks finished · ${formatMetric('costToDone', mostReliable.mm.costToDone)}/task` : ''}
+          tone="completion"
+        />
+        <Verdict
+          label="Cheapest that works"
+          why="lowest cost above 80% reliable"
+          model={cheapest?.m.displayName}
+          stat={cheapest ? `${formatMetric('costToDone', cheapest.mm.costToDone)} per task · ${formatMetric('completionRate', cheapest.mm.completionRate)} finished` : ''}
+          tone="agentic"
+        />
       </div>
+      <p className="mb-5 font-mono text-[11px] text-faint">
+        Reliability = share of tasks finished across repeated runs. Cost-to-Done = real $ to finish one task.
+      </p>
 
       {/* use-case tabs */}
       <div className="mb-3 flex flex-wrap gap-1.5">
@@ -142,7 +163,7 @@ function Tab({ active, onClick, children }: { active: boolean; onClick: () => vo
   );
 }
 
-function Verdict({ label, model, stat, tone }: { label: string; model?: string; stat: string; tone: 'accent' | 'completion' | 'agentic' }) {
+function Verdict({ label, why, model, stat, tone }: { label: string; why: string; model?: string; stat: string; tone: 'accent' | 'completion' | 'agentic' }) {
   const color = tone === 'completion' ? 'text-completion' : tone === 'agentic' ? 'text-agentic' : 'text-accent';
   const dot = tone === 'completion' ? 'bg-completion' : tone === 'agentic' ? 'bg-agentic' : 'bg-accent';
   return (
@@ -150,9 +171,10 @@ function Verdict({ label, model, stat, tone }: { label: string; model?: string; 
       <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-faint">
         <span className={`inline-block h-1.5 w-1.5 rounded-full ${dot}`} />
         {label}
+        <span className="font-normal normal-case tracking-normal text-faint/70">· {why}</span>
       </div>
       <div className={`mt-2 text-lg font-semibold tracking-tight ${color}`}>{model ?? '—'}</div>
-      <div className="tabular mt-0.5 font-mono text-[12px] text-muted">{stat}</div>
+      <div className="mt-1 text-[13px] leading-snug text-muted">{stat}</div>
     </div>
   );
 }

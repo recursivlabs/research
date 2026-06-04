@@ -1,20 +1,362 @@
 [
-  { "ts": "2026-06-02T19:36:00Z", "kind": "ranking", "actor": "synthesizer", "text": "Power rankings recomputed. Claude Sonnet 4.6 holds #1 overall (89)." },
-  { "ts": "2026-06-02T19:31:00Z", "kind": "cost", "actor": "cost-meter", "text": "Cost-to-Done finalized: gemini-3.1-pro $0.39 / task across 30 runs." },
-  { "ts": "2026-06-02T19:24:00Z", "kind": "judge", "actor": "judge-opus", "text": "Scored 5 runs of gpt-5.4 on refactor-to-spec — quality 90/100." },
-  { "ts": "2026-06-02T19:18:00Z", "kind": "run", "actor": "runner-07", "text": "claude-opus-4.6 completed 'add pagination to /posts' in 1 attempt.", "experiment": "real-cost-of-finishing-the-job" },
-  { "ts": "2026-06-02T19:09:00Z", "kind": "retry", "actor": "runner-03", "text": "deepseek-v3.2 retrying 'fix failing test suite' (attempt 2 of 3)." },
-  { "ts": "2026-06-02T19:02:00Z", "kind": "transcript", "actor": "archivist", "text": "Saved transcript for grok-4.1-fast run #1284." },
-  { "ts": "2026-06-02T18:51:00Z", "kind": "run", "actor": "runner-11", "text": "minimax-m2.5 completed 'extract structured data' after 2 retries." },
-  { "ts": "2026-06-02T18:43:00Z", "kind": "experiment", "actor": "dispatcher", "text": "Queued experiment: 'The real cost of finishing the job' (10 models x 30 runs).", "experiment": "real-cost-of-finishing-the-job" },
-  { "ts": "2026-06-02T18:30:00Z", "kind": "cost", "actor": "cost-meter", "text": "Logged $0.21 / task for claude-sonnet-4.6 — new field low." },
-  { "ts": "2026-06-02T18:22:00Z", "kind": "judge", "actor": "judge-opus", "text": "Marked gpt-4o-mini run failed: tests still red after 3 attempts." },
-  { "ts": "2026-06-02T18:10:00Z", "kind": "run", "actor": "runner-05", "text": "gemini-3-flash completed 'design a REST endpoint' in 1 attempt." },
-  { "ts": "2026-06-02T17:58:00Z", "kind": "swarm", "actor": "orchestrator", "text": "Runner fleet scaled to 8 agents to clear the queue." },
-  { "ts": "2026-06-02T17:40:00Z", "kind": "ranking", "actor": "synthesizer", "text": "Interim shift: Gemini 3.1 Pro overtakes GPT-5.4 on completion." },
-  { "ts": "2026-06-02T17:21:00Z", "kind": "run", "actor": "runner-02", "text": "kimi-k2.5 completed 'debug and fix' after 1 retry." },
-  { "ts": "2026-06-02T17:05:00Z", "kind": "cost", "actor": "cost-meter", "text": "Cost-to-Done updated for opus-4.6: $0.42 / task (30 runs)." },
-  { "ts": "2026-06-02T16:40:00Z", "kind": "experiment", "actor": "dispatcher", "text": "Held-out task set rotated — 6 fresh tasks loaded, graders sandboxed." },
-  { "ts": "2026-06-02T16:12:00Z", "kind": "transcript", "actor": "archivist", "text": "Archived 30 transcripts from the cost experiment." },
-  { "ts": "2026-06-02T15:30:00Z", "kind": "swarm", "actor": "orchestrator", "text": "Daily research cycle started. 10 models enrolled." }
+  {
+    "ts": "2026-06-03T04:21:19.535Z",
+    "kind": "ranking",
+    "actor": "synthesizer",
+    "text": "Power rankings recomputed and published."
+  },
+  {
+    "ts": "2026-06-03T04:21:19.517Z",
+    "kind": "cost",
+    "actor": "cost-meter",
+    "text": "Experiment complete. Real spend: $4.49 across 160 runs."
+  },
+  {
+    "ts": "2026-06-03T04:21:18.912Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Design a multi-tenant schema': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:21:15.545Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Design a multi-tenant schema' in 4.6s ($0.000)."
+  },
+  {
+    "ts": "2026-06-03T04:21:04.770Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Design a multi-tenant schema': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:21:01.395Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Design a multi-tenant schema' in 5.0s ($0.000)."
+  },
+  {
+    "ts": "2026-06-03T04:20:50.229Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Design a paginated search API': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:20:46.875Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Design a paginated search API' in 7.7s ($0.000)."
+  },
+  {
+    "ts": "2026-06-03T04:20:33.118Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Design a paginated search API': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:20:29.751Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Design a paginated search API' in 10.1s ($0.000)."
+  },
+  {
+    "ts": "2026-06-03T04:20:13.354Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Solve a pet constraint puzzle': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:20:09.986Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Solve a pet constraint puzzle' in 2.4s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:20:01.424Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Solve a pet constraint puzzle': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:19:58.030Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Solve a pet constraint puzzle' in 5.0s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:19:46.949Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Resolve a scheduling constraint': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:19:43.568Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Resolve a scheduling constraint' in 5.6s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:19:31.858Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Resolve a scheduling constraint': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:19:28.514Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Resolve a scheduling constraint' in 6.4s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:19:15.976Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Extract contacts to JSON': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:19:12.609Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Extract contacts to JSON' in 10.6s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:18:55.776Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Extract contacts to JSON': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:18:52.420Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Extract contacts to JSON' in 8.5s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:18:37.763Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Normalize messy records': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:18:34.414Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Normalize messy records' in 6.8s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:18:21.571Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Normalize messy records': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:18:18.194Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Normalize messy records' in 9.1s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:18:02.904Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Find and fix a pagination bug': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:17:59.555Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Find and fix a pagination bug' in 3.9s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:17:49.657Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Find and fix a pagination bug': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:17:46.319Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Find and fix a pagination bug' in 4.1s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:17:36.030Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Write a precise ISO-date regex': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:17:32.513Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Write a precise ISO-date regex' in 3.7s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:17:22.566Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored openai/gpt-4o-mini on 'Write a precise ISO-date regex': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:17:19.199Z",
+    "kind": "run",
+    "actor": "runner/openai",
+    "text": "openai/gpt-4o-mini finished 'Write a precise ISO-date regex' in 2.7s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:17:10.989Z",
+    "kind": "swarm",
+    "actor": "orchestrator",
+    "text": "Enrolled openai/gpt-4o-mini."
+  },
+  {
+    "ts": "2026-06-03T04:17:04.467Z",
+    "kind": "retry",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 failed 'Design a multi-tenant schema': empty_response. Counts as incomplete."
+  },
+  {
+    "ts": "2026-06-03T04:16:30.665Z",
+    "kind": "retry",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 failed 'Design a multi-tenant schema': empty_response. Counts as incomplete."
+  },
+  {
+    "ts": "2026-06-03T04:16:03.783Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Design a paginated search API': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:16:00.439Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Design a paginated search API' in 32.3s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:15:21.882Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Design a paginated search API': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:15:18.537Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Design a paginated search API' in 27.8s ($0.001)."
+  },
+  {
+    "ts": "2026-06-03T04:14:44.640Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Solve a pet constraint puzzle': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:14:41.278Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Solve a pet constraint puzzle' in 4.8s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:14:30.300Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Solve a pet constraint puzzle': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:14:26.943Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Solve a pet constraint puzzle' in 6.0s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:14:14.853Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Resolve a scheduling constraint': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:14:11.496Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Resolve a scheduling constraint' in 15.5s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:13:49.872Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Resolve a scheduling constraint': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:13:46.514Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Resolve a scheduling constraint' in 16.9s ($0.003)."
+  },
+  {
+    "ts": "2026-06-03T04:13:23.632Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Extract contacts to JSON': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:13:20.285Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Extract contacts to JSON' in 7.3s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:13:06.830Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Extract contacts to JSON': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:13:03.483Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Extract contacts to JSON' in 11.0s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:12:46.358Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Normalize messy records': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:12:42.958Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Normalize messy records' in 6.0s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:12:30.797Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Normalize messy records': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:12:27.447Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Normalize messy records' in 4.9s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:12:16.450Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Find and fix a pagination bug': fail, quality 0."
+  },
+  {
+    "ts": "2026-06-03T04:12:13.089Z",
+    "kind": "run",
+    "actor": "runner/minimax",
+    "text": "minimax/minimax-m3 finished 'Find and fix a pagination bug' in 12.7s ($0.002)."
+  },
+  {
+    "ts": "2026-06-03T04:11:54.227Z",
+    "kind": "judge",
+    "actor": "judge",
+    "text": "Scored minimax/minimax-m3 on 'Find and fix a pagination bug': fail, quality 0."
+  }
 ]

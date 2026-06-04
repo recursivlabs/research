@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
@@ -30,8 +30,18 @@ body {
   font-feature-settings: 'tnum' 1;
 }
 
+/* instrument/terminal: mono display headlines */
+h1, h2 {
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+}
+.font-display {
+  font-family: var(--font-mono);
+  letter-spacing: -0.03em;
+}
+
 ::selection {
-  background: rgba(57, 224, 200, 0.25);
+  background: rgba(11, 157, 118, 0.18);
 }
 
 /* ---- motion ---- */
