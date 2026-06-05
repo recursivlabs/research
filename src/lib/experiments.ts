@@ -9,6 +9,9 @@ export interface ExperimentFrontmatter {
   title: string;
   summary: string;
   date: string; // ISO
+  number?: string; // zero-padded sequence, e.g. "001"
+  test?: string; // one-line plain description of what the test actually was
+  finding?: string; // the punchy result, in plain terms
   winner?: string;
   heroStatLabel?: string;
   heroStatValue?: string;

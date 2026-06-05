@@ -70,12 +70,12 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
 
         <div className="mt-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-faint">
           <span className="live-dot inline-block h-1.5 w-1.5 rounded-full bg-good" />
-          {exp.status ?? 'live'} · {date}
+          <span className="text-accent">Experiment {exp.number ?? '—'}</span> · {date}
         </div>
         <h1 className="mt-4 max-w-3xl text-balance text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
           {exp.title}
         </h1>
-        <p className="mt-4 max-w-2xl text-lg text-muted">{exp.summary}</p>
+        <p className="mt-4 max-w-2xl text-lg text-muted">{exp.test ?? exp.summary}</p>
 
         {/* one-line verdict */}
         {best && (

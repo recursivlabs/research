@@ -12,6 +12,8 @@ export const contentType = 'image/png';
 export default async function Image({ params }: { params: { slug: string } }) {
   const exp = getExperiment(params.slug);
   const title = exp?.title ?? 'Recursiv Research';
+  const number = exp?.number ?? '';
+  const test = exp?.test ?? exp?.summary ?? '';
   const board = await loadLeaderboard();
   const ranked = board.models; // enriched: sorted by composite, best first
   const priciest = [...board.models].sort((a, b) => (b.metrics.costToDone?.value ?? 0) - (a.metrics.costToDone?.value ?? 0))[0];
@@ -50,16 +52,17 @@ export default async function Image({ params }: { params: { slug: string } }) {
     (
       <div style={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column', background: '#ffffff', color: '#0e1726', padding: 56, fontFamily: 'monospace' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#0b9d76', fontSize: 22 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12, color: '#0b9d76', fontSize: 22, fontWeight: 700, letterSpacing: 1 }}>
             <div style={{ width: 13, height: 13, borderRadius: 999, background: '#0b9d76' }} />
-            recursiv / research
+            EXPERIMENT {number}
           </div>
-          <div style={{ display: 'flex', fontSize: 18, color: '#8a95a4' }}>reliability · cost-to-done</div>
+          <div style={{ display: 'flex', fontSize: 20, color: '#8a95a4' }}>recursiv / research</div>
         </div>
 
-        <div style={{ display: 'flex', fontSize: 52, fontWeight: 700, lineHeight: 1.07, marginTop: 24, maxWidth: 1080 }}>{title}</div>
+        <div style={{ display: 'flex', fontSize: 46, fontWeight: 700, lineHeight: 1.05, marginTop: 22, maxWidth: 1080 }}>{title}</div>
+        <div style={{ display: 'flex', fontSize: 21, color: '#586273', marginTop: 12, maxWidth: 1010, lineHeight: 1.35 }}>{test}</div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 'auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 11, marginTop: 'auto' }}>
           {rows.map((r) => <Row key={r.m.modelId} {...r} />)}
         </div>
       </div>

@@ -11,14 +11,14 @@ export function ExperimentCard({ exp }: { exp: Experiment }) {
       <div>
         <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wider text-faint">
           <StatusDot status={exp.status} />
-          <span>{exp.status ?? 'live'}</span>
+          <span className="text-accent">Experiment {exp.number ?? '—'}</span>
           <span className="text-line-bright">·</span>
           <span>{date}</span>
         </div>
         <h3 className="mt-3 text-lg font-semibold leading-snug tracking-tight text-ink group-hover:text-accent">
           {exp.title}
         </h3>
-        <p className="mt-2 line-clamp-2 text-sm text-muted">{exp.summary}</p>
+        <p className="mt-2 line-clamp-3 text-sm text-muted">{exp.test ?? exp.summary}</p>
       </div>
       {exp.heroStatValue && (
         <div className="mt-5 flex items-end justify-between border-t border-line pt-4">

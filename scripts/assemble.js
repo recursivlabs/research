@@ -84,19 +84,25 @@ const ratio = Math.round(priciest.metrics.costToDone.value / (cheapest.metrics.c
 const byRel = [...models].sort((a, b) => a.metrics.completionRate.value - b.metrics.completionRate.value || a.metrics.quality.value - b.metrics.quality.value);
 const worst = byRel[0];
 
-let title, summary, heroValue, heroLabel;
 const winner = bestValue.displayName;
+// experiment number = chronological position among all experiments
+const expDir = path.join(ROOT, 'content', 'experiments');
+const existingDates = fs.existsSync(expDir) ? fs.readdirSync(expDir).filter((f) => f.endsWith('.mdx')).map((f) => f.slice(0, 10)) : [];
+const number = String(Array.from(new Set([...existingDates, RUN_DATE])).sort().indexOf(RUN_DATE) + 1).padStart(3, '0');
+
+const title = 'The real cost of finishing the job';
+const test = `We gave the ${models.length} top AI models the same real coding, data, reasoning, and SQL tasks, then measured what each one finished, how good it was, and what it cost.`;
+let finding, heroValue, heroLabel;
 if (priciest.modelId === worst.modelId && ratio >= 3) {
-  title = 'The most expensive model finished last';
-  summary = `We ran the ${models.length} top AI models on real coding, data, reasoning, and SQL tasks. ${priciest.displayName} cost about ${ratio}× the cheapest model and still posted the lowest score of the field. The cheapest models aced every task.`;
+  finding = `The most expensive model finished last. ${priciest.displayName} cost about ${ratio}× the cheapest model and scored lowest of all ${models.length}. The cheapest models finished every task.`;
   heroValue = `${ratio}×`;
-  heroLabel = 'the cost — and last place';
+  heroLabel = 'priciest, and last place';
 } else {
-  title = `${winner} is the best value in AI right now`;
-  summary = `We ran the ${models.length} top AI models on real coding, data, reasoning, and SQL tasks. ${winner} finished the work reliably at the lowest cost — ${priciest.displayName} cost about ${ratio}× as much.`;
+  finding = `${winner} was the best value, finishing the work reliably for about ${ratio}× less than ${priciest.displayName}.`;
   heroValue = winner;
-  heroLabel = 'best cost-to-done';
+  heroLabel = 'best value';
 }
+const summary = `${test} ${finding}`;
 
 // ---- receipts: a handful of real runs as readable proof (task -> answer -> verdict -> cost) ----
 const allRuns = [];
@@ -120,7 +126,19 @@ if (loserRun && !picked.includes(loserRun)) picked.push(loserRun);
 const receipts = picked.map((r) => ({ model: r.model, task: r.task, category: r.category, answer: (r.answer || '').slice(0, 800), pass: r.pass, quality: r.quality, cost: Number(r.cost.toFixed(6)) }));
 fs.writeFileSync(path.join(ROOT, 'data', 'transcripts', `${slug}.json`), JSON.stringify({ runs: receipts }, null, 2));
 
-const mdx = `---\ntitle: "${title}"\nsummary: "${summary.replace(/"/g, "'")}"\ndate: "${RUN_DATE}"\nstatus: "live"\nwinner: "${winner}"\nheroStatValue: "${heroValue}"\nheroStatLabel: "${heroLabel}"\n---\n\nWe ran the ${models.length} leading models as agents on real ${CATEGORIES.join(', ')} tasks, grading completion and quality with an independent judge model. Cost-to-Done is the tokens each run actually used, priced at published per-model rates.\n\n<VerdictBox>\n${priciest.displayName} cost about ${ratio}× ${cheapest.displayName} per task. ${winner} did the same work reliably for a fraction of a cent.\n</VerdictBox>\n`;
+const fm = [
+  `number: "${number}"`,
+  `title: "${title}"`,
+  `test: "${test.replace(/"/g, "'")}"`,
+  `finding: "${finding.replace(/"/g, "'")}"`,
+  `summary: "${summary.replace(/"/g, "'")}"`,
+  `date: "${RUN_DATE}"`,
+  `status: "live"`,
+  `winner: "${winner}"`,
+  `heroStatValue: "${heroValue}"`,
+  `heroStatLabel: "${heroLabel}"`,
+].join('\n');
+const mdx = `---\n${fm}\n---\n\n${test} Cost-to-Done is the tokens each run actually used, priced at published per-model rates; reliability is pass^k across runs; quality is graded by an independent judge.\n\n<VerdictBox>\n${finding}\n</VerdictBox>\n`;
 fs.writeFileSync(path.join(ROOT, 'content', 'experiments', `${slug}.mdx`), mdx);
 
 console.log(`assembled ${models.length} models -> data/leaderboard.json`);
