@@ -6,9 +6,9 @@ import { getExperiment, getExperimentSlugs, getTranscript } from '@/lib/experime
 import { loadLeaderboard } from '@/lib/leaderboard';
 import { mdxComponents } from '@/components/mdx';
 import { Transcript, TranscriptData } from '@/components/Transcript';
-import { Frontier, FrontierPoint } from '@/components/Frontier';
 import { Leaderboard } from '@/components/Leaderboard';
 import { CTASection } from '@/components/CTA';
+import { fmtCost } from '@/lib/format';
 
 export const dynamicParams = false;
 
@@ -48,16 +48,6 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
     (m) => m.experiments?.includes(params.slug) && m.metrics.costToDone && m.metrics.completionRate,
   );
 
-  const points: FrontierPoint[] = models.map((m) => ({
-    modelId: m.modelId,
-    displayName: m.displayName,
-    vendor: m.vendor,
-    cost: m.metrics.costToDone!.value,
-    costLo: m.metrics.costToDone!.ci95?.[0],
-    costHi: m.metrics.costToDone!.ci95?.[1],
-    completion: m.metrics.completionRate!.value,
-  }));
-
   // headline numbers
   const value = (m: (typeof models)[number]) => {
     const r = m.metrics.completionRate!.value;
@@ -93,7 +83,7 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
             <span className="font-mono text-[11px] uppercase tracking-wider text-accent">Verdict</span>
             <span className="text-lg text-ink">
               Best value: <span className="font-semibold text-accent">{best.displayName}</span> — finishes{' '}
-              {Math.round(best.metrics.completionRate!.value * 100)}% of tasks at ${best.metrics.costToDone!.value.toFixed(2)} each.
+              {Math.round(best.metrics.completionRate!.value * 100)}% of tasks at {fmtCost(best.metrics.costToDone!.value)} each.
             </span>
           </div>
         )}
@@ -103,20 +93,9 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
             <Stat value={`${models.length}`} label="models tested" />
             <Stat value={`${totalRuns}`} label="graded runs" />
-            <Stat value={`$${cheapest.toFixed(2)}`} label="cheapest cost-to-done" tone="agentic" />
+            <Stat value={fmtCost(cheapest)} label="cheapest cost-to-done" tone="agentic" />
             <Stat value={cheapest > 0 ? `${(priciest / cheapest).toFixed(1)}x` : '—'} label="cheapest vs priciest" />
           </div>
-        )}
-
-        {/* signature chart */}
-        {points.length > 0 && (
-          <section className="mt-10 rounded-2xl border border-line bg-panel/40 p-5 sm:p-6">
-            <h2 className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">Cost vs reliability</h2>
-            <p className="mt-1 text-sm text-faint">The efficiency frontier is up and to the left. Bars are the 95% CI on cost.</p>
-            <div className="mt-4">
-              <Frontier points={points} />
-            </div>
-          </section>
         )}
 
         {/* full results: verdict cards + use-case tabs + ranked table */}
@@ -134,12 +113,12 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
           </div>
         )}
 
-        {transcript && (
+        {transcript && transcript.runs?.length > 0 && (
           <section className="mt-12">
             <h2 className="text-2xl font-semibold tracking-tight text-ink">The receipts</h2>
             <p className="mt-2 max-w-2xl text-muted">
-              Not a synthetic benchmark. An actual agent run recorded on Recursiv: every step and the real
-              dollars it cost.
+              Real answers from this run: the actual task, exactly what the model returned, whether it passed,
+              and what it cost. Proof, not a synthetic score.
             </p>
             <Transcript data={transcript} />
           </section>
@@ -148,9 +127,9 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
         <div className="mt-12 rounded-xl border border-line bg-panel p-5">
           <div className="font-mono text-[11px] uppercase tracking-wider text-accent">How it was measured</div>
           <p className="mt-2 max-w-2xl text-sm text-muted">
-            {runsPer ? `Each model ran every task ${runsPer} times. ` : ''}Cost is real provider spend including
-            retries; reliability is pass^k across runs; quality is graded by an independent judge model. Run by
-            the autonomous swarm on Recursiv.{' '}
+            {runsPer ? `Each model ran every task ${runsPer} times. ` : ''}Reliability is the share of runs that
+            passed (pass^k); quality is graded by an independent judge model; Cost-to-Done is the tokens each run
+            used, priced at published per-model rates. Run by the autonomous swarm on Recursiv.{' '}
             <Link href="/methodology" className="text-accent underline-offset-4 hover:underline">
               How it works →
             </Link>

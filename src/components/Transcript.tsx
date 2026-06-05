@@ -1,62 +1,43 @@
-'use client';
+import { fmtCost } from '@/lib/format';
 
-import { useState } from 'react';
-
-export interface TranscriptStep {
-  role: 'agent' | 'tool' | 'result';
-  toolName?: string;
-  text: string;
-  status?: 'success' | 'error';
-  durationMs?: number;
+export interface Receipt {
+  model: string;
+  task: string;
+  category: string;
+  answer: string;
+  pass: boolean;
+  quality: number;
+  cost: number;
 }
 
 export interface TranscriptData {
-  model: string;
-  task: string;
-  costUsd: number;
-  steps: TranscriptStep[];
+  runs: Receipt[];
 }
 
 export function Transcript({ data }: { data: TranscriptData }) {
-  const [open, setOpen] = useState(false);
+  const runs = data?.runs ?? [];
+  if (!runs.length) return null;
   return (
-    <div className="my-8 overflow-hidden rounded-lg border border-line bg-panel">
-      <button
-        onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-panel-2"
-      >
-        <div>
-          <div className="font-mono text-[11px] uppercase tracking-wider text-accent">View the real agent run</div>
-          <div className="mt-1 text-sm text-muted">
-            <span className="text-ink">{data.model}</span> · {data.task} ·{' '}
-            <span className="tabular font-mono text-accent">${data.costUsd.toFixed(2)} to done</span>
+    <div className="mt-5 space-y-3">
+      {runs.map((r, i) => (
+        <div key={i} className="overflow-hidden rounded-xl border border-line bg-panel">
+          <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1.5 border-b border-line px-4 py-3">
+            <div className="flex min-w-0 items-center gap-2.5">
+              <span className={`shrink-0 font-mono text-[11px] font-semibold ${r.pass ? 'text-completion' : 'text-bad'}`}>
+                {r.pass ? '✓ PASSED' : '✗ FAILED'}
+              </span>
+              <span className="truncate text-sm font-medium text-ink">{r.task}</span>
+              <span className="shrink-0 font-mono text-[10px] uppercase tracking-wider text-faint">{r.category}</span>
+            </div>
+            <div className="flex shrink-0 items-center gap-3 font-mono text-[11px] text-faint">
+              <span className="text-ink">{r.model}</span>
+              <span>quality {r.quality}</span>
+              <span className="text-agentic">{fmtCost(r.cost)}</span>
+            </div>
           </div>
+          <pre className="scrollbar-thin overflow-x-auto whitespace-pre-wrap px-4 py-3 font-mono text-[12px] leading-relaxed text-muted">{r.answer}</pre>
         </div>
-        <span className="font-mono text-faint">{open ? '−' : '+'}</span>
-      </button>
-      {open && (
-        <ol className="divide-y divide-line border-t border-line">
-          {data.steps.map((s, i) => (
-            <li key={i} className="flex gap-3 px-5 py-3 font-mono text-[13px]">
-              <span className="select-none text-faint">{String(i + 1).padStart(2, '0')}</span>
-              <div className="min-w-0 flex-1">
-                {s.role === 'tool' && (
-                  <span
-                    className={`mr-2 rounded px-1.5 py-0.5 text-[11px] ${
-                      s.status === 'error' ? 'bg-bad/15 text-bad' : 'bg-agentic/15 text-agentic'
-                    }`}
-                  >
-                    {s.toolName}
-                    {s.status === 'error' ? ' ✗' : ''}
-                  </span>
-                )}
-                <span className={s.role === 'agent' ? 'text-ink' : 'text-muted'}>{s.text}</span>
-                {s.durationMs ? <span className="ml-2 text-faint">{s.durationMs}ms</span> : null}
-              </div>
-            </li>
-          ))}
-        </ol>
-      )}
+      ))}
     </div>
   );
 }

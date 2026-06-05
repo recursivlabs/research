@@ -1,15 +1,49 @@
 {
-  "model": "DeepSeek V4 Pro",
-  "task": "regex",
-  "costUsd": 0.0001,
-  "steps": [
+  "runs": [
     {
-      "role": "agent",
-      "text": "Task: regex (coding)"
+      "model": "DeepSeek V4 Pro",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000117
     },
     {
-      "role": "result",
-      "text": "```\n^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$\n```"
+      "model": "Gemini 3.1 Pro",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000335
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Dedupe an array, preserving order",
+      "category": "coding",
+      "answer": "```javascript\nfunction unique(arr) {\n  return [...new Set(arr)];\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000066
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Normalize messy records",
+      "category": "extraction",
+      "answer": "To convert the provided text into a JSON array of objects with the structure `{name, role, years}`, here's the resulting JSON:\n\n```json\n[\n    {\"name\": \"Jane Doe\", \"role\": \"Engineer\", \"years\": 5},\n    {\"name\": \"Bob Smith\", \"role\": \"Designer\", \"years\": 2},\n    {\"name\": \"Carol\", \"role\": \"PM\", \"years\": 11}\n]\n```\n\nIf you would like me to save this JSON to a file, please let me know!",
+      "pass": true,
+      "quality": 98,
+      "cost": 0.000077
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE EXTENSION IF NOT EXISTS pgcrypto;\n\nCREATE TABLE orgs (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    slug        TEXT NOT NULL UNIQUE,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email       TEXT NOT NULL,\n    name        TEXT,\n    role        TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name       ",
+      "pass": false,
+      "quality": 31,
+      "cost": 0.0195
     }
   ]
 }
