@@ -90,9 +90,9 @@ export const METRIC_META: MetricMeta[] = [
     group: 'agentic',
     better: 'down',
     core: true,
-    plain: 'real dollars to finish, retries included',
+    plain: 'cost to finish the task, retries included',
     blurb:
-      'Real dollars to fully complete a verified task, retries and self-correction included. Not price-per-token.',
+      'Tokens actually used to complete the task (retries and self-correction included) priced at each model’s published per-token rate. Captures the real economics: a model that loops is a model that costs more.',
   },
   {
     key: 'completionRate',

@@ -1,14 +1,22 @@
 import { Metric, MetricStat } from './types';
 
+/** dollar amounts that span cents to sub-cent: adaptive precision, never a misleading $0. */
+export function fmtCost(v: number): string {
+  if (v === 0) return '$0';
+  if (v < 0.0001) return '<$0.0001';
+  if (v < 0.01) return `$${v.toFixed(4)}`;
+  if (v < 1) return `$${v.toFixed(3)}`;
+  return `$${v.toFixed(2)}`;
+}
+
 /** format a raw metric value for display, per metric semantics */
 export function formatMetric(key: Metric, stat?: MetricStat): string {
   if (!stat) return '—';
   const v = stat.value;
   switch (key) {
     case 'costToDone':
-      return `$${v.toFixed(2)}`;
     case 'costPerToken':
-      return `$${v.toFixed(2)}`;
+      return fmtCost(v);
     case 'completionRate':
     case 'toolAccuracy':
     case 'selfCorrection':
@@ -27,7 +35,7 @@ export function formatCI(key: Metric, stat?: MetricStat): string | null {
   const [lo, hi] = stat.ci95;
   const pct = key === 'completionRate' || key === 'toolAccuracy' || key === 'selfCorrection';
   if (pct) return `${Math.round(lo * 100)}–${Math.round(hi * 100)}%`;
-  if (key === 'costToDone' || key === 'costPerToken') return `$${lo.toFixed(2)}–$${hi.toFixed(2)}`;
+  if (key === 'costToDone' || key === 'costPerToken') return `${fmtCost(lo)}–${fmtCost(hi)}`;
   return `${lo}–${hi}`;
 }
 

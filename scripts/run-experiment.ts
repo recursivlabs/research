@@ -27,6 +27,12 @@ const TASKS_PER_CATEGORY = Number(process.env.TASKS_PER_CATEGORY || 1);
 const JUDGE_MODEL = 'anthropic/claude-sonnet-4.6';
 const MARKUP = 1.5; // ai_usage is billed at 1.5x provider cost; we report provider cost
 const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
+// Per-model mode: run a single model with no billing call, dump raw results.
+// Real cost is metered out-of-band via the MCP billing read (the harness key
+// intentionally has no billing scope — least privilege).
+const NO_BILLING = process.env.NO_BILLING === '1';
+const MODEL_ONLY = process.env.MODEL_ONLY || '';
+const PARTIAL_OUT = process.env.PARTIAL_OUT || '';
 
 // Latest flagship per provider (verified on OpenRouter). New ones require the
 // platform allowlist update; enrollment is resilient, so any model not yet
@@ -116,6 +122,7 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 let RUN_START = new Date().toISOString();
 
 async function costTotal(): Promise<number> {
+  if (NO_BILLING) return 0;
   const res = await sdk.billing.getProjectUsage(PROJECT_ID, { from: RUN_START });
   const ai = (res.data || []).find((i) => /ai/i.test(i.item));
   return (ai ? Number(ai.units) : 0) / MARKUP;
@@ -194,7 +201,7 @@ function metricsFrom(rs: RunResult[]) {
 async function main() {
   const validate = process.env.VALIDATE === '1';
   const limit = process.env.MODELS_LIMIT ? Number(process.env.MODELS_LIMIT) : 0;
-  const models = limit ? MODELS.slice(0, limit) : MODELS;
+  const models = MODEL_ONLY ? MODELS.filter((m) => m.id === MODEL_ONLY) : limit ? MODELS.slice(0, limit) : MODELS;
   const tasks = pickTasks();
   const runs = RUNS_PER_TASK;
 
@@ -255,6 +262,12 @@ async function main() {
   }
 
   emit('cost', 'cost-meter', `Experiment complete. Real spend: $${spent.toFixed(2)} across ${results.length} runs.`);
+
+  if (PARTIAL_OUT) {
+    fs.writeFileSync(PARTIAL_OUT, JSON.stringify({ model: models[0]?.id, name: models[0]?.name, vendor: models[0]?.vendor, results }, null, 2));
+    console.log(`\n=== PARTIAL written: ${PARTIAL_OUT} (${results.length} runs) ===`);
+    return;
+  }
 
   if (validate) {
     console.log('\n=== VALIDATION (no writes) ===');

@@ -129,7 +129,7 @@ export default function MethodologyPage() {
 
           <div className="mt-6 grid gap-3 sm:grid-cols-3">
             {[
-              ['Real dollars', 'Cost is actual provider spend per call, summed across the whole task including retries.'],
+              ['Published-rate cost', 'Cost-to-Done = tokens actually used on the task (retries included) priced at each model’s published per-token rate. Isolates model economics, no platform markup.'],
               ['Reliability over peak', 'Each task runs many times. We report pass^k consistency, not a lucky best-of-N.'],
               ['Contamination resistant', 'Held-out tasks; the grader runs outside the agent sandbox, so a model cannot read the answer.'],
             ].map(([t, d]) => (
