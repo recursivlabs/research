@@ -45,7 +45,7 @@ function metricsFrom(modelId, rs) {
   return out;
 }
 
-const RUN_DATE = new Date().toISOString().slice(0, 10);
+const RUN_DATE = process.env.RUN_DATE || new Date().toISOString().slice(0, 10);
 const slug = `${RUN_DATE}-power-rankings`;
 
 const files = fs.readdirSync(PARTIAL).filter((f) => f.endsWith('.json') && f !== '_costs.json');

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-05T00:11:22.493Z",
+  "updatedAt": "2026-06-05T00:19:27.596Z",
   "preview": false,
   "weights": {},
   "models": [
@@ -8,7 +8,7 @@
       "displayName": "DeepSeek V4 Pro",
       "vendor": "DeepSeek",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -150,7 +150,7 @@
       "displayName": "Gemini 3.1 Pro",
       "vendor": "Google",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -292,7 +292,7 @@
       "displayName": "Gemini 3.5 Flash",
       "vendor": "Google",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -434,7 +434,7 @@
       "displayName": "GPT-4o mini",
       "vendor": "OpenAI",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -576,7 +576,7 @@
       "displayName": "GPT-5.5",
       "vendor": "OpenAI",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -718,7 +718,7 @@
       "displayName": "Grok 4.3",
       "vendor": "xAI",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -860,7 +860,7 @@
       "displayName": "Kimi K2.6",
       "vendor": "Moonshot",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -994,7 +994,7 @@
       "displayName": "MiniMax M3",
       "vendor": "MiniMax",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -1136,7 +1136,7 @@
       "displayName": "Claude Opus 4.8",
       "vendor": "Anthropic",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
@@ -1278,7 +1278,7 @@
       "displayName": "Claude Sonnet 4.6",
       "vendor": "Anthropic",
       "experiments": [
-        "2026-06-05-power-rankings"
+        "2026-06-04-power-rankings"
       ],
       "normalized": {},
       "recursivScore": 0,
