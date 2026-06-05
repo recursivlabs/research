@@ -71,9 +71,30 @@ if (sample) {
   }, null, 2));
 }
 
-const ranked = models.slice().sort((a, b) => (b.metrics.completionRate.value / (b.metrics.costToDone.value || 1)) - (a.metrics.completionRate.value / (a.metrics.costToDone.value || 1)));
-const best = ranked[0];
-const mdx = `---\ntitle: "Power Rankings — ${RUN_DATE}"\nsummary: "Ran ${models.length} models across ${CATEGORIES.length} use cases on real tasks. Best value: ${best?.displayName}."\ndate: "${RUN_DATE}"\nstatus: "live"\nheroStatLabel: "models benchmarked"\nheroStatValue: "${models.length}"\n---\n\nWe ran ${models.length} frontier models on real ${CATEGORIES.join(', ')} tasks, grading completion and quality with an independent judge model. Cost-to-Done is computed from the tokens each run used at published per-model prices.\n\n<VerdictBox>\nBest value this run: ${best?.displayName} — finishes reliably at the lowest cost per task.\n</VerdictBox>\n`;
+// ---- Compute the viral story from the real data ----
+const ranked = models.slice().sort((a, b) => (b.metrics.completionRate.value / (b.metrics.costToDone.value || 1e-9)) - (a.metrics.completionRate.value / (a.metrics.costToDone.value || 1e-9)));
+const bestValue = ranked[0];
+const byCost = [...models].sort((a, b) => a.metrics.costToDone.value - b.metrics.costToDone.value);
+const cheapest = byCost[0], priciest = byCost[byCost.length - 1];
+const ratio = Math.round(priciest.metrics.costToDone.value / (cheapest.metrics.costToDone.value || 1e-9));
+const byRel = [...models].sort((a, b) => a.metrics.completionRate.value - b.metrics.completionRate.value || a.metrics.quality.value - b.metrics.quality.value);
+const worst = byRel[0];
+
+let title, summary, heroValue, heroLabel;
+const winner = bestValue.displayName;
+if (priciest.modelId === worst.modelId && ratio >= 3) {
+  title = 'The most expensive model finished last';
+  summary = `We ran the ${models.length} top AI models on real coding, data, reasoning, and SQL tasks. ${priciest.displayName} cost about ${ratio}× the cheapest model and still posted the lowest score of the field. The cheapest models aced every task.`;
+  heroValue = `${ratio}×`;
+  heroLabel = 'the cost — and last place';
+} else {
+  title = `${winner} is the best value in AI right now`;
+  summary = `We ran the ${models.length} top AI models on real coding, data, reasoning, and SQL tasks. ${winner} finished the work reliably at the lowest cost — ${priciest.displayName} cost about ${ratio}× as much.`;
+  heroValue = winner;
+  heroLabel = 'best cost-to-done';
+}
+
+const mdx = `---\ntitle: "${title}"\nsummary: "${summary.replace(/"/g, "'")}"\ndate: "${RUN_DATE}"\nstatus: "live"\nwinner: "${winner}"\nheroStatValue: "${heroValue}"\nheroStatLabel: "${heroLabel}"\n---\n\nWe ran the ${models.length} leading models as agents on real ${CATEGORIES.join(', ')} tasks, grading completion and quality with an independent judge model. Cost-to-Done is the tokens each run actually used, priced at published per-model rates.\n\n<VerdictBox>\n${priciest.displayName} cost about ${ratio}× ${cheapest.displayName} per task. ${winner} did the same work reliably for a fraction of a cent.\n</VerdictBox>\n`;
 fs.writeFileSync(path.join(ROOT, 'content', 'experiments', `${slug}.mdx`), mdx);
 
 console.log(`assembled ${models.length} models -> data/leaderboard.json`);

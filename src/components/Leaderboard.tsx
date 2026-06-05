@@ -54,34 +54,6 @@ export function Leaderboard({ models }: { models: ModelScore[] }) {
 
   return (
     <div>
-      {/* verdict cards */}
-      <div className="mb-2 grid gap-3 sm:grid-cols-3">
-        <Verdict
-          label="Best value"
-          why="most reliability per dollar"
-          model={bestValue?.m.displayName}
-          stat={bestValue ? `finishes ${formatMetric('completionRate', bestValue.mm.completionRate)} of tasks at ${formatMetric('costToDone', bestValue.mm.costToDone)} each` : ''}
-          tone="accent"
-        />
-        <Verdict
-          label="Most reliable"
-          why="finishes the most tasks"
-          model={mostReliable?.m.displayName}
-          stat={mostReliable ? `${formatMetric('completionRate', mostReliable.mm.completionRate)} of tasks finished · ${formatMetric('costToDone', mostReliable.mm.costToDone)}/task` : ''}
-          tone="completion"
-        />
-        <Verdict
-          label="Cheapest that works"
-          why="lowest cost above 80% reliable"
-          model={cheapest?.m.displayName}
-          stat={cheapest ? `${formatMetric('costToDone', cheapest.mm.costToDone)} per task · ${formatMetric('completionRate', cheapest.mm.completionRate)} finished` : ''}
-          tone="agentic"
-        />
-      </div>
-      <p className="mb-5 font-mono text-[11px] text-faint">
-        Reliability = share of tasks finished across repeated runs. Cost-to-Done = real $ to finish one task.
-      </p>
-
       {/* use-case tabs */}
       <div className="mb-3 flex flex-wrap gap-1.5">
         <Tab active={cat === 'all'} onClick={() => setCat('all')}>All tasks</Tab>
@@ -92,11 +64,11 @@ export function Leaderboard({ models }: { models: ModelScore[] }) {
 
       <div className="overflow-hidden rounded-2xl border border-line bg-panel/30">
         <div className="overflow-x-auto scrollbar-thin">
-          <table className="w-full min-w-[680px] table-fixed border-separate border-spacing-0">
+          <table className="w-full min-w-[560px] table-fixed border-separate border-spacing-0">
             <colgroup>
-              <col style={{ width: '52px' }} />
+              <col style={{ width: '44px' }} />
               <col />
-              {CORE_METRICS.map((m) => (<col key={m.key} style={{ width: '150px' }} />))}
+              {CORE_METRICS.map((m) => (<col key={m.key} style={{ width: '128px' }} />))}
             </colgroup>
             <thead>
               <tr className="border-b border-line">
@@ -148,6 +120,16 @@ export function Leaderboard({ models }: { models: ModelScore[] }) {
           <span className="ml-auto text-faint/70">ranked by value (reliability per dollar) · longer bar = better</span>
         </div>
       </div>
+
+      {/* verdicts — under the rankings */}
+      <div className="mt-5 grid gap-3 sm:grid-cols-3">
+        <Verdict label="Best value" why="most reliability per dollar" model={bestValue?.m.displayName} stat={bestValue ? `finishes ${formatMetric('completionRate', bestValue.mm.completionRate)} of tasks at ${formatMetric('costToDone', bestValue.mm.costToDone)} each` : ''} tone="accent" />
+        <Verdict label="Most reliable" why="finishes the most tasks" model={mostReliable?.m.displayName} stat={mostReliable ? `${formatMetric('completionRate', mostReliable.mm.completionRate)} of tasks finished · ${formatMetric('costToDone', mostReliable.mm.costToDone)}/task` : ''} tone="completion" />
+        <Verdict label="Cheapest that works" why="lowest cost above 80% reliable" model={cheapest?.m.displayName} stat={cheapest ? `${formatMetric('costToDone', cheapest.mm.costToDone)} per task · ${formatMetric('completionRate', cheapest.mm.completionRate)} finished` : ''} tone="agentic" />
+      </div>
+      <p className="mt-2 font-mono text-[11px] text-faint">
+        Reliability = share of tasks finished across repeated runs. Cost-to-Done = real $ to finish one task.
+      </p>
     </div>
   );
 }
