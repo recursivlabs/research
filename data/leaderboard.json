@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-06-05T15:34:16.253Z",
+  "updatedAt": "2026-06-05T15:38:29.313Z",
   "preview": false,
   "weights": {},
   "models": [
@@ -866,27 +866,27 @@
       "recursivScore": 0,
       "metrics": {
         "completionRate": {
-          "value": 1,
+          "value": 0.88,
           "unit": "pass^k",
-          "nRuns": 7,
-          "passK": 1
+          "nRuns": 8,
+          "passK": 0.88
         },
         "costToDone": {
-          "value": 0.000093,
+          "value": 0.000092,
           "unit": "$/task",
-          "nRuns": 7,
+          "nRuns": 8,
           "ci95": [
             0,
-            0.000467
+            0.000419
           ]
         },
         "quality": {
-          "value": 99,
+          "value": 86,
           "unit": "/100",
-          "nRuns": 7,
+          "nRuns": 8,
           "ci95": [
-            97,
-            100
+            62,
+            110
           ]
         }
       },
@@ -971,20 +971,28 @@
         },
         "sql": {
           "completionRate": {
-            "value": 1,
+            "value": 0.5,
             "unit": "pass^k",
-            "nRuns": 1,
-            "passK": 1
+            "nRuns": 2,
+            "passK": 0.5
           },
           "costToDone": {
-            "value": 0.000969,
+            "value": 0.000521,
             "unit": "$/task",
-            "nRuns": 1
+            "nRuns": 2,
+            "ci95": [
+              0,
+              0.001399
+            ]
           },
           "quality": {
-            "value": 96,
+            "value": 48,
             "unit": "/100",
-            "nRuns": 1
+            "nRuns": 2,
+            "ci95": [
+              0,
+              142
+            ]
           }
         }
       }

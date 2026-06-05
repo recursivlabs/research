@@ -676,6 +676,15 @@
       "cost": 0.0195
     },
     {
+      "model": "Kimi K2.6",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "(no response)",
+      "pass": false,
+      "quality": 0,
+      "cost": 0.000073
+    },
+    {
       "model": "GPT-4o mini",
       "task": "Top customers by spend (SQL)",
       "category": "sql",

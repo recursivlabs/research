@@ -66,7 +66,7 @@ const files = fs.readdirSync(PARTIAL).filter((f) => f.endsWith('.json') && f !==
 const models = [];
 for (const f of files) {
   const d = JSON.parse(fs.readFileSync(path.join(PARTIAL, f), 'utf8'));
-  const rs = (d.results || []).filter((r) => r.output && r.output !== '(no response)');
+  const rs = (d.results || []).filter((r) => r.output); // includes '(no response)' — a no-response is a real failure
   if (!rs.length) { console.log('skip (no runs):', d.model); continue; }
   const byCategory = {};
   for (const cat of CATEGORIES) { const rsc = rs.filter((r) => r.category === cat); if (rsc.length) byCategory[cat] = metricsFrom(d.model, rsc); }
@@ -109,7 +109,7 @@ const allRuns = [];
 for (const f of files) {
   const d = JSON.parse(fs.readFileSync(path.join(PARTIAL, f), 'utf8'));
   for (const r of (d.results || [])) {
-    if (!r.output || r.output === '(no response)') continue;
+    if (!r.output) continue; // keep '(no response)' — it's a real failed run, shown as such
     allRuns.push({ model: d.name, modelId: d.model, task: humanTask(r.task), category: r.category, answer: r.output, pass: r.pass, quality: r.quality, cost: runCost(d.model, r.output) });
   }
 }
