@@ -117,8 +117,8 @@ export default async function ExperimentPage({ params }: { params: { slug: strin
           <section className="mt-12">
             <h2 className="text-2xl font-semibold tracking-tight text-ink">The receipts</h2>
             <p className="mt-2 max-w-2xl text-muted">
-              Real answers from this run: the actual task, exactly what the model returned, whether it passed,
-              and what it cost. Proof, not a synthetic score.
+              Every graded run in this experiment. The actual task, exactly what each model returned, whether it
+              passed, and what it cost. Filter by result and tap any run to read the answer. Proof, not a synthetic score.
             </p>
             <Transcript data={transcript} />
           </section>

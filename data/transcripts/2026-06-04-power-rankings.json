@@ -1,6 +1,186 @@
 {
   "runs": [
     {
+      "model": "MiniMax M3",
+      "task": "Dedupe an array, preserving order",
+      "category": "coding",
+      "answer": "```javascript\nfunction unique(arr) {\n  return [...new Set(arr)];\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000066
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Dedupe an array, preserving order",
+      "category": "coding",
+      "answer": "```js\nfunction unique(arr) {\n  return [...new Set(arr)];\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000063
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Dedupe an array, preserving order",
+      "category": "coding",
+      "answer": "```javascript\nfunction unique(arr) {\n    return Array.from(new Set(arr));\n}\n```",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000031
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Dedupe an array, preserving order",
+      "category": "coding",
+      "answer": "```javascript\nfunction unique(arr) {\n    return [...new Map(arr.map(item => [item, item])).values()];\n}\n```",
+      "pass": true,
+      "quality": 72,
+      "cost": 0.000036
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "```\n^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$\n```",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000086
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "`^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$`",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000083
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000445
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000445
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000027
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000027
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.00083
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.00083
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.00057
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.00057
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": " ^\\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000093
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": " ^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[0-1])$",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000091
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "```\n^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$\n```",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.003
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "```\n^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$\n```",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.003
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "`^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$`",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.00057
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Write a precise ISO-date regex",
+      "category": "coding",
+      "answer": "`^(\\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$`",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000585
+    },
+    {
       "model": "DeepSeek V4 Pro",
       "task": "Extract contacts to JSON",
       "category": "extraction",
@@ -10,22 +190,157 @@
       "cost": 0.000117
     },
     {
-      "model": "Gemini 3.1 Pro",
-      "task": "Solve a pet constraint puzzle",
-      "category": "reasoning",
-      "answer": "Ada",
+      "model": "DeepSeek V4 Pro",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\"ann.lee@acme.co\", \"support@acme.co\"],\n  \"phones\": [\"(415) 555-0192\", \"415.555.7766\"]\n}\n```",
       "pass": true,
       "quality": 100,
-      "cost": 0.000335
+      "cost": 0.000108
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000675
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000675
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000041
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000039
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\"emails\":[\"ann.lee@acme.co\",\"support@acme.co\"],\"phones\":[\"(415) 555-0192\",\"415.555.7766\"]}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000995
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\"emails\":[\"ann.lee@acme.co\",\"support@acme.co\"],\"phones\":[\"(415) 555-0192\",\"415.555.7766\"]}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000995
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\"emails\":[\"ann.lee@acme.co\",\"support@acme.co\"],\"phones\":[\"(415) 555-0192\",\"415.555.7766\"]}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000735
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\n  \"emails\": [\"ann.lee@acme.co\", \"support@acme.co\"],\n  \"phones\": [\"(415) 555-0192\", \"415.555.7766\"]\n}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.00078
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": " ```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000135
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": " ```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000135
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\"ann.lee@acme.co\", \"support@acme.co\"],\n  \"phones\": [\"(415) 555-0192\", \"415.555.7766\"]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.004125
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "{\"emails\":[\"ann.lee@acme.co\",\"support@acme.co\"],\"phones\":[\"(415) 555-0192\",\"415.555.7766\"]}",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.003675
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```\n\n**Extraction summary:**\n| Type | Value | Source |\n|------|-------|--------|\n| Email | `ann.lee@acme.co` | \"Reach Ann at ann.lee@acme.co\" |\n| Phone | `(415) 555-0192` | \"or (415) 555-0192\" |\n| Email | `support@acme.co` | \"Backup: support@acme.co\" |\n| Phone | `415.555.7766` | \"415.555.7766\" |\n\nBoth phone numbers are valid **US 10-digit** numbers in the 415 area code (San Francisco), captured in their **original formatting** as they appeared in the source text.",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.002655
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Extract contacts to JSON",
+      "category": "extraction",
+      "answer": "```json\n{\n  \"emails\": [\n    \"ann.lee@acme.co\",\n    \"support@acme.co\"\n  ],\n  \"phones\": [\n    \"(415) 555-0192\",\n    \"415.555.7766\"\n  ]\n}\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000915
     },
     {
       "model": "MiniMax M3",
-      "task": "Dedupe an array, preserving order",
-      "category": "coding",
-      "answer": "```javascript\nfunction unique(arr) {\n  return [...new Set(arr)];\n}\n```",
+      "task": "Normalize messy records",
+      "category": "extraction",
+      "answer": "```json\n[\n  {\"name\": \"Jane Doe\", \"role\": \"Engineer\", \"years\": 5},\n  {\"name\": \"Bob Smith\", \"role\": \"Designer\", \"years\": 2},\n  {\"name\": \"Carol\", \"role\": \"PM\", \"years\": 11}\n]\n```",
       "pass": true,
       "quality": 100,
-      "cost": 0.000066
+      "cost": 0.000105
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Normalize messy records",
+      "category": "extraction",
+      "answer": "```json\n[\n  {\"name\": \"Jane Doe\", \"role\": \"Engineer\", \"years\": 5},\n  {\"name\": \"Bob Smith\", \"role\": \"Designer\", \"years\": 2},\n  {\"name\": \"Carol\", \"role\": \"PM\", \"years\": 11}\n]\n```",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000105
     },
     {
       "model": "GPT-4o mini",
@@ -37,6 +352,321 @@
       "cost": 0.000077
     },
     {
+      "model": "GPT-4o mini",
+      "task": "Normalize messy records",
+      "category": "extraction",
+      "answer": "To convert the provided text into the specified JSON array format, consider the following transformation:\n\nInput Text: \n\"Jane Doe — Engineer, 5 yrs. Bob Smith, Designer (2 years). Carol, PM 11y.\"\n\nConverted JSON Array:\n```json\n[\n    {\"name\": \"Jane Doe\", \"role\": \"Engineer\", \"years\": 5},\n    {\"name\": \"Bob Smith\", \"role\": \"Designer\", \"years\": 2},\n    {\"name\": \"Carol\", \"role\": \"PM\", \"years\": 11}\n]\n```\n\nThis matches the required format of {name, role, years}.",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000088
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Resolve a scheduling constraint",
+      "category": "reasoning",
+      "answer": "The constraints don't uniquely determine a single answer — there are **two valid solutions**:\n\n**Solution 1:** A=1pm, C=2pm, B=3pm\n**Solution 2:** A=2pm, C=3pm, B=1pm\n\nBoth satisfy \"A is before C\" and \"B is not at 2pm.\" If there's an additional constraint you intended (e.g., \"B is after A,\" or a specific total ordering), share it and I'll pin down the unique answer.",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000177
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Resolve a scheduling constraint",
+      "category": "reasoning",
+      "answer": "To solve this, let's analyze the given information:\n\n1. The meetings A, B, and C are scheduled for 1pm, 2pm, and 3pm.\n2. A is before C.\n3. B is not at 2pm.\n\nFrom this, we can deduce the following:\n\n- If B is not at 2pm, B must be either at 1pm or 3pm.\n- Since A is before C, if A is at 1pm, then C must be at 2pm or 3pm.\n- However, if B is at 3pm, then C would have to be at 2pm. \n\nThis leads us to the conclusion that:\n- A is at 1pm.\n- B is at 3pm (since it can't be at 2pm).\n- C is at 2pm.\n\nThus, the assignments are:\nA=1pm, B=3pm, C=2pm.",
+      "pass": true,
+      "quality": 88,
+      "cost": 0.000101
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Resolve a scheduling constraint",
+      "category": "reasoning",
+      "answer": "The constraints as stated don't pin down a unique answer — there are two valid solutions:\n\n**Solution 1:** A=1pm, B=3pm, C=2pm\n**Solution 2:** A=2pm, B=1pm, C=3pm\n\nBoth satisfy \"A before C\" and \"B ≠ 2pm.\" The classic version of this puzzle usually includes a third clue (e.g., \"A is not at 1pm\" or \"the 1pm meeting is for department X\") to make it unique. Want me to add one and re-solve?",
+      "pass": true,
+      "quality": 78,
+      "cost": 0.000185
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Resolve a scheduling constraint",
+      "category": "reasoning",
+      "answer": "To solve the problem, let's analyze the given information:\n\n1. Three meetings are at 1pm, 2pm, and 3pm.\n2. Meeting A is before meeting C.\n3. Meeting B is not at 2pm.\n\nFrom point 2, if A is before C, the possible pairs for (A, C) are:\n- A at 1pm and C at 2pm or 3pm\n- A at 2pm cannot happen because it must be before C.\n- A at 3pm is impossible since it must be before C.\n\nNow looking at point 3, since B is not at 2pm, the only possible times left for B are:\n- B at 1pm or B at 3pm.\n\nIf we consider B at 1pm, then A must be at 2pm (since it must be before C) and C at 3pm. But this contradicts point 3 as B cannot be at 2 pm.\n\nIf we set B at 3pm, then A must be at 1pm and C at 2pm, which fits all conditions.\n\nThus, we have:\n\nA = 1pm, B = 3pm, C = 2pm.\n\nFinal answer:\nA=1pm, B=3pm, C=2pm.",
+      "pass": true,
+      "quality": 72,
+      "cost": 0.000138
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000067
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000067
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000335
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000335
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.00002
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.00002
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000665
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000665
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000405
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000405
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": " Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000067
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": " Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000067
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.002025
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.002025
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000405
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Solve a pet constraint puzzle",
+      "category": "reasoning",
+      "answer": "Ada",
+      "pass": true,
+      "quality": 100,
+      "cost": 0.000405
+    },
+    {
+      "model": "Kimi K2.6",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": " ```sql\nCREATE TABLE orgs (\n    org_id      uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        text NOT NULL,\n    created_at  timestamptz DEFAULT now()\n);\n\nCREATE TABLE users (\n    user_id     uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      uuid NOT NULL REFERENCES orgs(org_id) ON DELETE CASCADE,\n    email       text NOT NULL,\n    name        text,\n    role        text NOT NULL DEFAULT 'member' CHECK (role IN ('owner','admin','member')),\n    created_at  timestamptz DEFAULT now(),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    project_id  uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      uuid NOT NULL REFERENCES orgs(org_id) ON DELETE CASCADE,\n    name        text NOT NULL,\n    description text,\n    created_by  uuid NOT NULL REFERENCES users(user_i",
+      "pass": true,
+      "quality": 96,
+      "cost": 0.000969
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    slug        TEXT NOT NULL UNIQUE,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email       TEXT NOT NULL,\n    name        TEXT NOT NULL,\n    role        TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name        TEXT NOT NULL,\n    description T",
+      "pass": true,
+      "quality": 96,
+      "cost": 0.00723
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\n-- Tenants\nCREATE TABLE orgs (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\n-- Users (scoped to an org; a user can belong to one org for minimalism)\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id),\n    email       TEXT NOT NULL,\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n\n    UNIQUE (org_id, email)\n);\n\n-- Projects within an org\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id),\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\n-- Tasks within a ",
+      "pass": true,
+      "quality": 91,
+      "cost": 0.000671
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP\n);\n\nCREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email VARCHAR(255) NOT NULL,\n    name VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (org_id, email),\n    UNIQUE (id, org_id) \n);\n\nCREATE TABLE projects (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name VARCHAR(255) NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,\n    UNIQUE (id, org_id)\n);\n\nCREATE TABLE tasks (\n    id UUID PRIMARY ",
+      "pass": true,
+      "quality": 91,
+      "cost": 0.003505
+    },
+    {
+      "model": "Gemini 3.1 Pro",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name TEXT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()\n);\n\nCREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email TEXT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    UNIQUE (org_id, email),\n    UNIQUE (org_id, id)\n);\n\nCREATE TABLE projects (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name TEXT NOT NULL,\n    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),\n    UNIQUE (org_id, id)\n);\n\nCREATE TABLE tasks (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL,\n    project_id UUID NOT NULL,\n    us",
+      "pass": true,
+      "quality": 91,
+      "cost": 0.003115
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name VARCHAR(255) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n\nCREATE TABLE users (\n    id UUID DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email VARCHAR(255) NOT NULL,\n    name VARCHAR(255),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,\n    PRIMARY KEY (org_id, id),\n    UNIQUE (id),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    id UUID DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL,\n    name VARCHAR(255) NOT NULL,\n    description TEXT,\n    created_by UUID NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,\n    PRIMARY KEY (org_id, id)",
+      "pass": true,
+      "quality": 91,
+      "cost": 0.000259
+    },
+    {
+      "model": "Gemini 3.5 Flash",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE organizations (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name VARCHAR(255) NOT NULL,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL\n);\n\nCREATE TABLE users (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,\n    email VARCHAR(255) NOT NULL,\n    name VARCHAR(255),\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP NOT NULL,\n    UNIQUE (org_id, email),\n    UNIQUE (org_id, id)\n);\n\nCREATE TABLE projects (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,\n    name VARCHAR(255) NOT NULL,\n    description TEXT,\n    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP N",
+      "pass": true,
+      "quality": 91,
+      "cost": 0.000241
+    },
+    {
+      "model": "DeepSeek V4 Pro",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE organizations (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    email       TEXT NOT NULL UNIQUE,\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE org_members (\n    org_id      UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,\n    user_id     UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n    role        TEXT NOT NULL DEFAULT 'member',\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    PRIMARY KEY (org_id, user_id)\n);\n\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      ",
+      "pass": true,
+      "quality": 88,
+      "cost": 0.000734
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "CREATE TABLE orgs (\n  id uuid PRIMARY KEY,\n  name text NOT NULL,\n  created_at timestamptz NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n  id uuid PRIMARY KEY,\n  email text NOT NULL UNIQUE,\n  name text,\n  created_at timestamptz NOT NULL DEFAULT now()\n);\n\nCREATE TABLE org_users (\n  org_id uuid NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,\n  role text NOT NULL DEFAULT 'member',\n  created_at timestamptz NOT NULL DEFAULT now(),\n  PRIMARY KEY (org_id, user_id)\n);\n\nCREATE TABLE projects (\n  id uuid PRIMARY KEY,\n  org_id uuid NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  name text NOT NULL,\n  created_by uuid,\n  created_at timestamptz NOT NULL DEFAULT now(),\n  UNIQUE (org_id, id),\n  FOREIGN KEY (org_id, created_by) REFERENCES o",
+      "pass": true,
+      "quality": 88,
+      "cost": 0.004475
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  name TEXT NOT NULL,\n  created_at TIMESTAMPTZ DEFAULT now()\n);\n\nCREATE TABLE users (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  email TEXT NOT NULL UNIQUE,\n  created_at TIMESTAMPTZ DEFAULT now()\n);\n\nCREATE TABLE projects (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  name TEXT NOT NULL,\n  created_at TIMESTAMPTZ DEFAULT now()\n);\n\nCREATE TABLE tasks (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,\n  title TEXT NOT NULL,\n  completed BOOLEAN DEFAULT F",
+      "pass": true,
+      "quality": 88,
+      "cost": 0.003585
+    },
+    {
+      "model": "Grok 4.3",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  name TEXT NOT NULL,\n  created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  email TEXT NOT NULL UNIQUE,\n  name TEXT,\n  created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE projects (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  name TEXT NOT NULL,\n  created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE tasks (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,\n  title TEXT",
+      "pass": true,
+      "quality": 88,
+      "cost": 0.00381
+    },
+    {
+      "model": "Claude Sonnet 4.6",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    slug        TEXT NOT NULL UNIQUE,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email       TEXT NOT NULL,\n    name        TEXT NOT NULL,\n    role        TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name        TEXT NOT NULL,\n    description T",
+      "pass": false,
+      "quality": 72,
+      "cost": 0.00723
+    },
+    {
+      "model": "GPT-5.5",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "CREATE TABLE orgs (\n  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n  name text NOT NULL,\n  created_at timestamptz NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id uuid NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  email text NOT NULL,\n  name text NOT NULL,\n  created_at timestamptz NOT NULL DEFAULT now(),\n  UNIQUE (org_id, id),\n  UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),\n  org_id uuid NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n  name text NOT NULL,\n  created_by_user_id uuid NOT NULL,\n  created_at timestamptz NOT NULL DEFAULT now(),\n  UNIQUE (",
+      "pass": false,
+      "quality": 62,
+      "cost": 0.003185
+    },
+    {
+      "model": "Claude Opus 4.8",
+      "task": "Design a multi-tenant schema",
+      "category": "sql",
+      "answer": "```sql\nCREATE TABLE orgs (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n\nCREATE TABLE users (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    email       TEXT NOT NULL,\n    name        TEXT,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    UNIQUE (org_id, email)\n);\n\nCREATE TABLE projects (\n    id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    org_id      UUID NOT NULL REFERENCES orgs(id) ON DELETE CASCADE,\n    name        TEXT NOT NULL,\n    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),\n    UNIQUE (org_id, name)\n);\n\nCREATE TABLE tasks (\n    id            UUID PRIMARY KEY DEFAULT gen_random_",
+      "pass": false,
+      "quality": 62,
+      "cost": 0.019575
+    },
+    {
       "model": "Claude Opus 4.8",
       "task": "Design a multi-tenant schema",
       "category": "sql",
@@ -44,6 +674,42 @@
       "pass": false,
       "quality": 31,
       "cost": 0.0195
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Top customers by spend (SQL)",
+      "category": "sql",
+      "answer": "```sql\nSELECT c.name, SUM(o.total) AS total\nFROM customers c\nJOIN orders o ON c.id = o.customer_id\nGROUP BY c.id, c.name\nORDER BY total DESC\nLIMIT 3;\n```",
+      "pass": true,
+      "quality": 98,
+      "cost": 0.000043
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Top customers by spend (SQL)",
+      "category": "sql",
+      "answer": "```sql\nSELECT c.name, SUM(o.total) AS total_spend\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total_spend DESC\nLIMIT 3;\n```",
+      "pass": true,
+      "quality": 98,
+      "cost": 0.000102
+    },
+    {
+      "model": "MiniMax M3",
+      "task": "Top customers by spend (SQL)",
+      "category": "sql",
+      "answer": "```sql\nSELECT c.name, SUM(o.total) AS total\nFROM customers c\nJOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nORDER BY total DESC\nLIMIT 3;\n```",
+      "pass": true,
+      "quality": 98,
+      "cost": 0.000097
+    },
+    {
+      "model": "GPT-4o mini",
+      "task": "Top customers by spend (SQL)",
+      "category": "sql",
+      "answer": "```sql\nSELECT c.name, SUM(o.total) AS total_spend\nFROM customers c\nJOIN orders o ON c.id = o.customer_id\nGROUP BY c.name\nORDER BY total_spend DESC\nLIMIT 3;\n```",
+      "pass": true,
+      "quality": 97,
+      "cost": 0.000044
     }
   ]
 }

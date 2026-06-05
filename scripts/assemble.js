@@ -113,17 +113,10 @@ for (const f of files) {
     allRuns.push({ model: d.name, modelId: d.model, task: humanTask(r.task), category: r.category, answer: r.output, pass: r.pass, quality: r.quality, cost: runCost(d.model, r.output) });
   }
 }
-const picked = [];
-const seenTask = new Set();
-for (const r of allRuns.filter((x) => x.pass).sort((a, b) => b.quality - a.quality)) {
-  if (picked.length >= 4) break;
-  if (seenTask.has(r.task) || picked.some((p) => p.model === r.model)) continue; // distinct task AND model
-  seenTask.add(r.task); picked.push(r);
-}
-// include the priciest model's weakest run to show the contrast
-const loserRun = allRuns.filter((r) => r.modelId === priciest.modelId).sort((a, b) => a.quality - b.quality)[0];
-if (loserRun && !picked.includes(loserRun)) picked.push(loserRun);
-const receipts = picked.map((r) => ({ model: r.model, task: r.task, category: r.category, answer: (r.answer || '').slice(0, 800), pass: r.pass, quality: r.quality, cost: Number(r.cost.toFixed(6)) }));
+// every graded run is a receipt — sorted to be scannable (by task, then best first)
+const receipts = allRuns
+  .sort((a, b) => a.category.localeCompare(b.category) || a.task.localeCompare(b.task) || Number(b.pass) - Number(a.pass) || b.quality - a.quality)
+  .map((r) => ({ model: r.model, task: r.task, category: r.category, answer: (r.answer || '').slice(0, 800), pass: r.pass, quality: r.quality, cost: Number(r.cost.toFixed(6)) }));
 fs.writeFileSync(path.join(ROOT, 'data', 'transcripts', `${slug}.json`), JSON.stringify({ runs: receipts }, null, 2));
 
 const fm = [
