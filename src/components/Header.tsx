@@ -45,28 +45,26 @@ export function Header() {
   );
 }
 
+// Unified Recursiv footer — identical across research / sparklab / verify.
 export function Footer() {
   return (
-    <footer className="border-t border-line">
-      <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-6 px-6 py-10 sm:flex-row sm:items-center">
-        <div>
-          <p className="font-mono text-sm text-ink">
-            recursiv<span className="text-faint">/</span>research
-          </p>
-          <p className="mt-1 max-w-sm text-xs text-faint">{SITE.tagline}</p>
-        </div>
-        <div className="flex items-center gap-5 text-xs text-muted">
-          <Link href="/live-lab" className="hover:text-ink">
-            Live Research
-          </Link>
-          <Link href="/experiments" className="hover:text-ink">
-            Experiments
-          </Link>
-          <Link href="/methodology" className="hover:text-ink">
-            How It Works
-          </Link>
-          <a href={SITE.recursivUrl} target="_blank" rel="noopener noreferrer" className="hover:text-ink">
-            recursiv.io ↗
+    <footer className="border-t border-[#e5e7eb]">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-6 py-6 text-[12px]">
+        <span className="font-mono text-[#586273]">
+          Powered by{' '}
+          <a href="https://recursiv.io" className="font-medium text-[#0e1726] hover:underline">
+            Recursiv
+          </a>
+        </span>
+        <div className="flex items-center gap-1 font-mono text-[#8a95a4]">
+          <span className="text-[#0e1726]">Research</span>
+          <span className="px-1.5">·</span>
+          <a href="https://sparklab.on.recursiv.io" className="transition-colors hover:text-[#0e1726]">
+            Lab
+          </a>
+          <span className="px-1.5">·</span>
+          <a href="https://verify.on.recursiv.io" className="transition-colors hover:text-[#0e1726]">
+            Verify
           </a>
         </div>
       </div>
